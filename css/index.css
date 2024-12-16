@@ -463,24 +463,28 @@ canvas:not(#ribbon-canvas),
   background-color: rgba(52,152,219,0.3);
   border-left: 4px solid #3498db;
   color: #217bb8;
+  font-size: 16px;
 }
 .success {
   padding-left: 10px;
   background-color: rgba(46,204,113,0.3);
   border-left: 4px solid #2ecc71;
   color: #25a35a;
+  font-size: 16px;
 }
 .warning {
   padding-left: 10px;
   background-color: rgba(241,196,15,0.3);
   border-left: 4px solid #f1c40f;
   color: #c29d0b;
+  font-size: 16px;
 }
 .danger {
   padding-left: 10px;
   background-color: rgba(231,76,60,0.3);
   border-left: 4px solid #e74c3c;
   color: #cf2b1a;
+  font-size: 16px;
 }
 @-moz-keyframes scroll-down-effect {
   0% {
