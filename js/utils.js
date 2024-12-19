@@ -842,7 +842,9 @@ const anzhiyu = {
   // 获取自定义播放列表
   getCustomPlayList: function () {
     if (!window.location.pathname.startsWith("/music/")) {
-      return;
+      if (!window.location.pathname.startsWith("/anime-music/")){
+        return;
+      }
     }
     const urlParams = new URLSearchParams(window.location.search);
     const userId = "8152976493";
