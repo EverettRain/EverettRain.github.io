@@ -446,6 +446,30 @@ hr:before,
   inherits: true;
   initial-value: 2;
 }
+.tips {
+  padding-left: 10px;
+  background-color: rgba(52,152,219,0.3);
+  border-left: 4px solid #3498db;
+  color: #217bb8;
+}
+.success {
+  padding-left: 10px;
+  background-color: rgba(46,204,113,0.3);
+  border-left: 4px solid #2ecc71;
+  color: #25a35a;
+}
+.warning {
+  padding-left: 10px;
+  background-color: rgba(241,196,15,0.3);
+  border-left: 4px solid #f1c40f;
+  color: #c29d0b;
+}
+.danger {
+  padding-left: 10px;
+  background-color: rgba(231,76,60,0.3);
+  border-left: 4px solid #e74c3c;
+  color: #cf2b1a;
+}
 @-moz-keyframes anzhiyu-shake {
   0% {
     -webkit-transform: translate(1px, 1px) rotate(0deg);
