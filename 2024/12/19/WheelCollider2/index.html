@@ -1,0 +1,1174 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>自制载具系统：WheelCollider2 | Everett Rain</title><meta name="keywords" content="Unity,代码解析,C#"><meta name="author" content="Everett Rain,startrakcontact@gmail.com"><meta name="copyright" content="Everett Rain"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="自制载具系统：WheelCollider2"><meta name="application-name" content="自制载具系统：WheelCollider2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="自制载具系统：WheelCollider2"><meta property="og:url" content="https://everettrain.cn/2024/12/19/WheelCollider2/index.html"><meta property="og:site_name" content="Everett Rain"><meta property="og:description" content="自行使用代码改进原本的 WheelCollider 类，为 CarController 类提供基础"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://pic1.imgdb.cn/item/678ca023d0e0a243d4f59c35.jpg"><meta property="article:author" content="Everett Rain"><meta property="article:tag" content="Everett, Rain"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://pic1.imgdb.cn/item/678ca023d0e0a243d4f59c35.jpg"><meta name="description" content="自行使用代码改进原本的 WheelCollider 类，为 CarController 类提供基础"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="canonical" href="https://everettrain.cn/2024/12/19/WheelCollider2/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: undefined,
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'https://twikoo.everettrain.cn/',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":30,"position":"top","messagePrev":"注意：这篇文章距离上次更新已经有","messageNext":"天了，文章的内容有过期或出错的可能，请谨慎辨别"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: Everett Rain","link":"链接: ","source":"来源: Everett Rain","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Everett Rain',
+  title: '自制载具系统：WheelCollider2',
+  postAI: '',
+  pageFillDescription: '整体代码, 变量与属性查询, 变量解释, SweepType 部分, 常量部分, 车轮几何部分, 悬挂系统部分, 车轮倾角部分, 魔术公式部分, 轮胎滚动阻力和路面影响, 交互部分, 车辆行为内部变量, 变量读写权限, 方法部分, 初始化方法 Awake, 固定每帧更新方法 FixedUpdate, 绘制辅助图形方法 OnDrawGizmos, 扫描检测方法 Sweep, 更新轮胎状态方法 UpdateState, 悬挂系统力计算方法 AddSuspensionForce本博客实现的代码以中的资源代码为参考本博客内容较多代码量较大可以直接点击右侧目录跳转到你想看的地方整体代码变量与属性查询变量变量名称变量解释碰撞检测的形状射线如使用单束光检测与地面的碰撞可能是最快的但在有小孔的地面上可能会卡住球体检测球体和地面之间的碰撞圆柱体使用最接近轮胎形状的圆柱体来确定与地面的碰撞推荐使用轮胎半径轮胎惯性矩惯性矩是衡量物体转动或停止难度的指标轮胎宽度用于用于的圆柱体网格平滑度悬挂弹簧常数悬挂压缩侧的阻尼力悬挂回弹侧的阻尼力悬挂长度倾角度对于左侧轮胎设置负值会导致负倾角设置正值会导致正倾角对于右侧轮胎正负值需要反转如果你想让右侧轮胎有负倾角设置正值转向角度度对于左侧轮胎负值会导致内束角正值会导致外束角对于右侧轮胎正负值需要反转如果你想让右侧轮胎有内束角设置正值魔术公式简化版的系数用于计算摩擦力通过调整这些系数可以模拟各种路面是摩擦系数滚动阻力系数地面不平整度用于模拟砾石路和赛道旁草地等不平整路面地面不平整周期周期越大不平整度越短建议增加细颗粒路面如砾石路的周期大小轮胎的模型配置的模型将根据此组件的状态进行动画处理即使不设置也没有问题属性属性名称属性解释转向角度度驱动扭矩等同于的制动扭矩传动系统惯性矩驱动轮具有较大的惯性矩因为它们与传动系统相连设置这个值对于实现逼真的行为至关重要传动系统摩擦扭矩防倾杆力是否接地接地点信息当前悬挂长度悬挂压缩率轮胎角速度轮胎转速纵向摩擦力作用方向对应的获取的纵向滑移率对应的获取的垂直方向上的摩擦力横向摩擦力作用方向对应的获取的横向滑移率对应的获取的横向摩擦力轮胎负载对应的获取的力轮胎中心坐标世界空间对应的获取的轮胎旋转世界空间等同于的获取的摩擦力最大时的滑移率变量解释在开始主要程序的编写之前我们需要先对所需的变量有一个基本的了解部分指的是车轮与地面碰撞检测的三种类型这里通过枚举让玩家可以自由选择使用哪种方式来配置射线检测是指通过单根射线与地面碰撞来实现检测是性能最优的方法也是传统提供的方法但很容易卡在地面的小洞中此时射线无法检测到地面而判断轮胎在空中从而无法提供动力哪怕车轮的其他部位都在地面上球体检测是将车轮模拟为一个球体来与地面进行碰撞是许多游戏模型常用的方法将车轮的碰撞体用球体代替圆柱体检测是将车轮模拟为一个侧面着地圆柱体最符合实际的情况也是在该类中最推荐的选择常量部分用于防止除以零错误或避免在分母非常小的情况下进行除法运算同样用于防止除以零错误或避免在分母非常小的情况下进行除法运算用于控制中的平滑度或细节级别此处的两个常量均用于防止在后面的变量中出现除以零错误举个例子需要一定精度的计算需要更高精度的计算通过方法将可能很小的变量用替代在一定程度上保证精确度的同时避免除以零错误的产生车轮几何部分车轮半径车轮质量惯性矩车轮宽度车轮圆柱分辨率车轮半径影响车辆的高度和行驶性能需要进行初始设定以适配轮胎模型的大小和位置通过确定最小值为车轮质量惯性矩影响车轮旋转惯性和响应速度同样最小值为车轮宽度当选择为圆柱体检测时设置圆柱体的侧边高度即轮胎宽度影响抓地力和视觉效果车轮圆柱分辨率当选择为圆柱体检测时设定轮胎形状的细分程度影响后续的绘制渲染质量和碰撞检测精度更高的车轮分辨率意味着车轮更圆更贴合实际轮胎情况在模拟时可以提供更好的碰撞检测精度但更高分辨率也会加大性能消耗建议直接采用默认的即可悬挂系统部分悬挂系统弹簧刚度弹簧力度悬挂系统压缩阻尼系数悬挂系统回弹阻尼系数悬挂系统最大行程长度悬挂系统的弹簧力度值越大悬挂到达目标位置的速度越快车辆在不平路面上的反应更快但也会传递更多的路面振动到车身值越小悬挂更软可以更好地吸收路面不平带来的冲击但在快速转弯时可能会导致车身过度侧倾悬挂系统的压缩阻尼系数即悬挂压缩时的能量消耗速度值越大悬挂压缩速度越慢减少车身在撞击障碍物时的上下跳动有助于保持轮胎与地面的良好接触值越小悬挂压缩越快允许车身更快地响应路面变化但可能导致车辆在颠簸路面上的跳跃感增加悬挂系统的回弹阻尼系数即悬挂从压缩状态恢复到原始位置时的能量消耗速度值越大悬挂回弹越慢减少车身在压缩后迅速反弹引起的震荡有助于稳定车身姿态值越小悬挂回弹越快允许车身迅速回复到正常高度但可能导致车辆在颠簸路面上的频繁跳跃悬挂系统的最大行程长度即悬挂能够压缩和拉伸的最大距离值越大悬挂就能够在更大范围内运动适合越野环境能够更好地应对较大的路面起伏值越小悬挂运动范围越有限适合平坦道路提供更精确的操控反馈车轮倾角部分车轮对齐角度内倾角车轮对齐角度前束角内倾角定义车轮垂直中心线相对于车辆纵向垂直平面的倾斜角度负内倾角表示车轮顶部向内倾斜正内倾角表示车轮顶部向外倾斜负内倾角增加外侧轮胎在转弯时的接地面积提高抓地力适合高性能驾驶和赛道使用正内倾角减少外侧轮胎在转弯时的接地面积降低抓地力但可能改善直线行驶的稳定性零内倾角车轮完全垂直于地面适合日常驾驶提供均衡的操控和轮胎寿命前束角定义车轮前端相对于车辆横向轴线的偏移角度前束表示车轮前端向内靠拢外倾表示车轮前端向外分开前束使车辆在高速行驶时更加稳定减少转向不足适合长途驾驶外倾使车辆更容易转向增加转向灵敏度适合赛车和需要快速转向响应的场景零前束角车轮完全平行于车辆横向轴线适合大多数日常驾驶情况提供均衡的操控性能和轮胎寿命引用站外地址磊哥底盘调校之束角外倾角后倾角对束角和倾角及其原理和作用的简单介绍可以参考如果是制作城市等公路使用的普通车辆此处推荐直接使用默认的内倾角前束角魔术公式部分魔术公式是由荷兰理工大学教授等人提出并发展起来的它是用三角函数的组合公式建立的轮胎的纵向力侧向力和回正力矩的数学模型因只用一套公式就完整地表达了纯工况下轮胎的力特性故称为魔术公式形状因子影响力滑移关系曲线的宽度另一个形状因子主要控制力滑移关系曲线的峰值位置峰值因子代表了轮胎所能提供的最大侧向力或纵向力的比例曲率因子影响了力滑移关系曲线的斜率中的一个形状因子它影响了该模型中力滑移关系曲线的宽度较大的值会使力滑移曲线更宽意味着在较大滑移率下仍然能保持较高的抓地力较小的值会使曲线更窄表示轮胎在较小的滑移率范围内就能达到最大抓地力但超过这个范围后抓地力迅速下降中的另一个形状因子主要控制力滑移曲线的峰值位置它决定了轮胎在什么滑移率时能达到最大抓地力对于不同的轮胎和驾驶条件优化可以使轮胎在最需要的时候提供最佳抓地力中的峰值因子代表了轮胎所能提供的最大侧向力或纵向力的比例较高的值意味着轮胎能够产生更大的力即更高的抓地力该值应根据实际轮胎性能进行调整过高或过低都会导致模拟不准确限制最小值为确保非负值中的曲率因子影响了力滑移曲线的斜率它决定了曲线在接近峰值时的变化速度从而影响轮胎从线性区域过渡到非线性区域的行为较小的值可以使曲线更加平缓表示轮胎在接近极限时仍有较好的渐进性较大的值则会使曲线更陡峭表示轮胎一旦超过一定滑移率就迅速失去抓地力名词解释滑移率滑移率是指车轮的旋转速度与其线速度之间的差异比率主要用于描述车轮的纵向滑动情况它分为两种类型纵向滑移率用于描述刹车或加速时车轮的滑动情况指车轮在旋转时其实际速度与理论线速度之间的差异比例侧向滑移率或侧偏角用于描述转向时车轮的侧向滑动情况指车轮沿侧向的速度分量与车辆行驶速度的比例它反映了车辆转弯时轮胎是否能够跟随预期路径名词解释力滑移关系曲线力滑移关系曲线展示了轮胎产生的力如侧向力纵向力随着滑移率或侧偏角变化的关系这条曲线是非线性的并且具有以下特点线性区域当滑移率或侧偏角较小时轮胎产生的力与滑移率成正比增加此时轮胎处于稳定工作状态抓地力良好峰值点随着滑移率或侧偏角的增加轮胎产生的力达到最大值这个最大值对应于最佳抓地力点通常发生在一定的滑移率范围内非线性区域超过峰值点后轮胎产生的力迅速下降即使滑移率继续增加这表明轮胎已经失去抓地力进入了打滑或漂移状态魔术公式的详细数学原理轮胎模型魔术公式在此不详细叙述其数学原理部分在公式中的应用会在后续的函数中提及轮胎滚动阻力和路面影响轮胎的滚动阻力系数模拟路面颠簸路面上颠簸的最大高度振幅路面上颠簸之间的距离波长滚动阻力系数定义轮胎的滚动阻力系数这是一个无量纲的比例因子用于计算滚动阻力滚动阻力是轮胎在滚动时由于变形摩擦等因素而产生的阻力它直接影响车辆的燃油效率和加速性能较高的值意味着更大的滚动阻力导致车辆需要更多的能量来维持速度影响加速性和油耗较低的值则表示较小的滚动阻力有助于提高燃油经济性和加速性能但可能降低抓地力颠簸幅度定义路面上颠簸的最大高度振幅用于模拟不平整路面的效果这个参数用于模拟道路上的起伏如减速带坑洼或其他障碍物较大的值表示更剧烈的路面变化可能导致车辆更频繁和剧烈的上下运动设置为表示没有明显的路面不平度适用于模拟平坦的道路条件颠簸周期定义路面上颠簸之间的距离波长用于控制颠簸的频率这个参数决定了颠簸出现的频率较大的值表示颠簸之间的距离较长车辆经过两次颠簸的时间间隔较大较小的值则表示颠簸更加密集设置为表示没有明确的周期性颠簸适用于模拟随机或无规律的路面状况交互部分用来绑定车轮模型运行期间将物理模拟的结果传递给车轮模型使其转动调试模式开关方便进行车轮的刚体自定义类摩擦力最大时的滑移率判断是否处于地面上接地点信息存储轮胎与地面接触点的位置其中为自定义类详细信息可以在自制载具系统中找到车辆行为内部变量此部分变量为运行时发生变化的内部变量用来记录车辆运行时的部分参数悬挂压缩量表示当前悬挂被压缩的程度上一帧的悬挂压缩量用于计算悬挂的变化率防倾杆产生的力用于抵抗车身侧倾车轮前方的方向向量车轮侧面的方向向量当前车轮的倾角以弧度为单位车轮沿前进方向的速度分量车轮沿侧向的速度分量车轮沿前进方向的滑移率车轮沿侧向的滑移率滑移的总大小即前向和侧向滑移的组合作用在车轮上的载荷影响抓地力作用在车轮上的前向力如驱动力或阻力作用在车轮上的侧向力如转弯时的离心力车轮角度以弧度为单位可用于计算转向角度车轮的角速度用于模拟旋转车轮的转向角度应用于驱动轴的扭矩应用于制动的扭矩动力传动系统的惯性影响加速和减速特性动力传动系统的摩擦扭矩模拟内部摩擦损失名词解释防倾杆防倾杆也被称为稳定杆或抗侧倾杆是一种用于减少车辆在转弯时车身侧倾的悬挂系统组件它通过连接左右两侧的悬挂来平衡车轮的运动从而改善车辆的操控性和稳定性防倾杆通常由一根扭力杆构成两端分别连接到车辆两侧的悬挂臂上并且中间固定在车架或副车架上当车辆转弯时外侧悬挂会受到向上的力而拉伸内侧悬挂则受到向下的力而压缩防倾杆的作用就是在这两个悬挂之间传递扭转力以抵抗这种差异减小车身侧倾的程度变量读写权限可读可写部分车轮模型的用于关联模型的位置和旋转轮胎半径最小值被限制为以避免除零错误或不合理的小值轮胎惯性矩最小值被限制为以确保物理计算的稳定性轮胎宽度最小值被限制为以确保合理的尺寸圆柱体解析度决定了轮胎形状的精细程度最小值被限制为以保证足够的细节悬挂弹簧刚度不允许为负值悬挂压缩阻尼不允许为负值悬挂回弹阻尼不允许为负值悬挂行程长度最小值被限制为以确保悬挂系统有实际作用车轮倾角范围限制在到度之间以防止极端角度影响操控车轮外倾角同样范围限制在到度之间参数直接赋值没有特别的边界检查参数直接赋值没有特别的边界检查参数不允许为负值参数直接赋值没有特别的边界检查滚动阻力系数不允许为负值减震器振幅不允许为负值减震器周期不允许为负值转向角度直接赋值没有特别的边界检查驱动扭矩直接赋值可以是正值或负值取决于驱动方向制动扭矩不允许为负值动力传动系统的惯性不允许为负值动力传动系统的摩擦扭矩不允许为负值防倾杆产生的力直接赋值可以是任意值只读部分是否与地面接触用于判断车轮是否处于悬空状态雷达碰撞检测的信息包含与地面或其他物体碰撞的具体细节车轮与地面接触点的位置当前悬挂的实际长度考虑了悬挂的压缩量悬挂压缩的比例表示悬挂被压缩的程度相对于其总长度车轮的角速度用于描述车轮旋转的速度车轮的转速通过角速度转换而来单位是每分钟转数假设类中有一个常量或方法车轮前方的方向向量用于计算摩擦力和其他力的方向作用在车轮上的前向力如驱动力或阻力车轮沿前进方向的滑移率影响抓地力和操控性滑移的总大小可能是前向和侧向滑移的组合用于评估轮胎的整体滑移情况车轮侧面的方向向量用于计算横向摩擦力和其他力的方向作用在车轮上的侧向力如转弯时的离心力车轮沿侧向的滑移率影响抓地力和稳定性作用在车轮上的载荷影响轮胎的抓地力车轮中心位置基于悬挂压缩调整后的实际位置车轮的完整旋转状态包括转向角度外倾角倾角以及车轮自身的旋转角度基础的旋转状态通常由车辆的整体旋转决定应用了转向角度和外倾角转向角度控制车轮相对于车辆前进方向的偏转而外倾角则是轮胎安装时相对于车辆中心线的小角度调整应用了倾角它指的是轮胎安装时相对于垂直方向的倾斜角度正的倾角意味着轮胎顶部向内倾斜将弧度表示的车轮旋转角度转换为欧拉角并应用于车轮旋转这确保了车轮能够正确地模拟其自旋是一个用于将弧度转换为度数的常量这个常量的值等于它提供了一个简单的方法来执行弧度到度的转换最大滑移率指在特定条件下轮胎能够提供的最大抓地力对应的滑移率方法部分初始化方法固定每帧更新方法绘制辅助图形方法绘制悬挂从车轮的当前位置到计算出的车轮中心位置之间绘制一条直线注意由于需要绑定在一个相对车辆固定的物体上所以此处的实际上获取的是车轮固定在车辆上的位置相当于初始悬挂位置不受悬挂影响而则代表车轮计算出的当前位置受到悬挂影响所以二者连线可以表示悬挂对轮胎的位置影响设置矩阵以应用变换设置当前的变换矩阵以应用位置旋转和缩放是的缩写表示依次应用平移旋转和缩放是之前计算得到的车轮实际中心位置是车轮的完整旋转状态获取了对象的累积缩放值确保正确反映物体的实际大小绘制此处根据不同的扫掠类型选择绘制不同形状的绘制一个圆形并从原点到轮胎边缘上弧度为处的点绘制一条线这条线会随着车轮旋转而旋转可以用来可视化车轮旋转绘制一个空心球体其半径为这可以用来可视化轮胎的碰撞体积绘制两个圆形分别位于宽度的两侧和并从原点到轮胎边缘上弧度为处的点绘制一条线这条线会随着车轮旋转而旋转可以用来可视化车轮转动和转过的角度重置变换矩阵可以确保后续的绘制不会受到之前设置的变换矩阵的影响让的变换回到默认的世界坐标系方法作用绘制一个圆其中心位于半径为循环遍历角度循环迭代次而这决定了圆的平滑度即使用多少个线段来近似表示圆值越大绘制的圆越平滑和分别是当前点和下一个点的角度以弧度为单位通过公式计算得出这确保了角度均匀分布在一个完整的圆周上度或弧度绘制线段方法用于在两个连续的角度位置之间绘制一条直线它调用了来获取这些位置的坐标方法作用根据给定的角度弧度和偏移量返回圆周上的一个点的位置构造这个方法使用正弦和余弦函数来计算圆周上的点的和坐标而坐标则直接使用传入的参数计算坐标即从圆心到该点的垂直距离计算坐标负号确保圆周按预期方向绘制逆时针传入的直接作为坐标使得圆可以沿轴偏移从而绘制不同位置的圆周返回这个计算出的值扫描检测方法如果不为则直接跳过如果对象为空则初始化一个该对象新建用来挂载的将新设为挂有的空物体的子物体调整子物体局部坐标确保生成的圆柱体中心位于轮胎中心挂载此时触发内的函数使用的方法初始化该新类同时判断三个条件是否符合确保的参数与实际始终保持一致更新的本地旋转使其与车轮的姿态匹配使用车轮传出的和更新车轮的转向角和束角在向上更新车轮给出的倾角该方法根据选择的的不同分别选择不同的方式进行对地面的扫描射线式扫描方法接收到给出的变量发出一条从开始沿方向的射线射线的最大长度是这意味着射线会延伸到悬挂系统的最大伸展长度加上轮子半径的位置只有当物体在空中时即使悬挂伸长到最大长度轮胎也无法触碰地面所以如果射线击中了任何碰撞体则表示物体不在空中变量会被设置为表示物体接地否则它保持参数允许获取关于撞击点的额外信息如位置法线等但此处并未获取球体式扫描沿着方向投射一个球体起始于也就是从轮胎的上边缘点出发沿向下方向投射一个半径为的球体此时球体中心会正好处于轮胎的几何中心射线的最大长度同样是这意味着射线会延伸到悬挂系统的最大伸展长度加上轮子半径的位置类似于也会更新和基于是否有一个碰撞体在球体路径上圆柱体式扫描在进行圆柱体检测之前方法被调用可能是为了更新圆柱体检测器的状态或参数使其适应当前物体的姿势或其他属性执行一次圆柱体检测沿方向进行最大检测距离为结果同样更新和方法如果不为则直接跳过如果对象为空则初始化一个该对象新建用来挂载的将新设为挂有的空物体的子物体调整子物体局部坐标确保生成的圆柱体中心位于轮胎中心挂载此时触发内的函数使用的方法初始化该新类同时判断三个条件是否符合确保的参数与实际始终保持一致更新的本地旋转使其与车轮的姿态匹配使用车轮传出的和更新车轮的转向角和束角在向上更新车轮给出的倾角作用初始化和更新用于圆柱体检测的组件先根据的值来确定是否需要使用该函数如果不为圆柱体类型则直接跳过该函数初始化类如果检测不到该对象含有则新建一个并传入设定好的值进行初始化持续判断半径宽度分辨率三个条件是否与实际情况符合如果不符合则重新确定位置并初始化更新的本地旋转应用车轮的转向倾角和束角其中倾角为车轮与地面之间的夹角与度的差值由车轮绕轴旋转得到转向角为车辆转向时车轮的偏角束角是指的我们从车辆正上方看车子的时候轮胎与车辆中轴线形成的夹角这两个角度由车轮绕轴垂直地面轴旋转得到更新轮胎状态方法该方法负责更新车轮的各种状态变量包括悬挂压缩接触位置方向向量前向和侧向速度分量以及悬挂压缩的当前值保存当前悬挂压缩值保存当前的悬挂压缩值到这使得在后续计算中可以比较当前帧和上一帧的悬挂压缩变化有助于模拟悬挂系统的动态行为更新车轮触地时的状态更新接触位置计算前向和侧向方向向量更新当前倾角计算速度分量添加地形起伏效果更新接触位置通过获取并修改碰撞点信息更新得到接触位置使用将碰撞点从世界坐标转换为本地坐标设置和为确保只保留垂直方向上的偏移使用将修改后的本地坐标再转换回世界坐标得到最终的接触位置计算前向和侧向方向向量计算并更新前向方向向量和侧向方向向量定义变量并设为转向角度和外倾角的总和在这里称为总转向角度通过创建一个绕轴旋转的四元数表示进行总转向后的方向将其与原始的前向相乘即四元数相乘运算也就是将总转向角度加在正前方向上表示从前向转向后的角度将其定义为新的前向角度同样将进行总转向后的方向与原始的右向相乘将总转向角度加在正右侧方向上表示从原始正右侧转向后的角度将其定义为新的右侧方向的角度使用方法将前向和侧向向量分别投影到与碰撞法线垂直的平面上并进行归一化以确保它们正确地反映相对于地面的方向同时避免因为向量长度不一致导致的计算误差然后分别赋给和更新当前倾角更新当前的倾角方法可以理解为得到两个向量之间的夹角有符号的或者理解为将两个向量都放在坐标原点一个向量要向哪个方向旋转多少度才能与另一个向量重合通过输入向量和以及旋转轴也就是轴正向可以得到向量之间的差角并且该差角永远是两个差角之间较小的那一个其值永远在之间这里通过得到触地点法向方向也就是该处地面的法线方向到所处物体的正上方向也就是载具视角的正上方向之间绕轴正向之间的夹角将计算出来的夹角加上初始设定的即得到实际的倾角计算速度分量计算并更新前向速度和侧向速度通过方法获取到车轮刚体组件与地面碰撞点的速度并赋给变量如果车轮碰撞到的物体也存在刚体组件则通过碰撞到的物体的方法获取被碰撞物体在同一点的速度两者相减得到车轮的相对速度将得到的相对速度与前向和侧向两个单位向量进行点乘方法来分解速度并分别得到前向分速度和侧向分速度添加地形起伏效果添加基于噪声的地形起伏效果同时更新悬挂压缩值使用碰撞点的位置和周期参数生成噪声的两个参数用来模拟地形起伏表示地形起伏的高度将生成的两参数传入噪声生成函数得到一个连续变化的随机值同时可以通过调整幅度控制其影响程度最终的悬挂压缩值等于悬挂长度减去碰撞距离从悬挂连接点到地面碰撞点的距离这个距离越小意味着悬挂系统被压缩得越多加上地形起伏高度再减去轮胎半径更新车轮未触地时的状态当车轮未接地时重置相关状态变量将接触位置置为零向量将前向和侧向方向向量置为零向量将前向和侧向速度置为零避免车辆在空中依然可以更改速度将悬挂压缩值置为零此时悬挂完全展开悬挂系统力计算方法检查是否接地检查车轮是否接触地面只有当车轮接触地面时才会有悬挂力的作用如果车轮未接地则将负载设置为并返回不执行后续代码',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-26 01:10:24',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://pic1.imgdb.cn/item/678ca0d5d0e0a243d4f59c84.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">Everett Rain</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 音乐馆</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977860953&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 流行音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977764824&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 二次元音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977154241&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 纯音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12997246554&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> hyper 的音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12921745965&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> yjh 的音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://www.helloimg.com/i/2024/12/18/6762dc7c643da.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://www.helloimg.com/i/2024/12/18/6762dc7c643da.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://www.helloimg.com/i/2024/12/18/6762dc7c658b2.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://www.helloimg.com/i/2024/12/18/6762dc7c658b2.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.05rem;">C#<sup>2</sup></a><a href="/tags/Code/" style="font-size: 1.05rem;">Code<sup>1</sup></a><a href="/tags/Hexo/" style="font-size: 1.05rem;">Hexo<sup>2</sup></a><a href="/tags/Manual/" style="font-size: 1.05rem;">Manual<sup>2</sup></a><a href="/tags/Markdown/" style="font-size: 1.05rem;">Markdown<sup>1</sup></a><a href="/tags/Shader/" style="font-size: 1.05rem;">Shader<sup>1</sup></a><a href="/tags/Unity/" style="font-size: 1.05rem;">Unity<sup>3</sup></a><a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/" style="font-size: 1.05rem;">代码解析<sup>3</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">学习<sup>1</sup></a><a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.05rem;">教程<sup>2</sup></a><a href="/tags/%E6%96%87%E5%AD%A6%E4%BD%9C%E5%93%81/" style="font-size: 1.05rem;">文学作品<sup>3</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/01/"><span class="card-archive-list-date">一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">十二月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">8</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/Unity%E6%B1%BD%E8%BD%A6%E7%B3%BB%E7%BB%9F/" itemprop="url">Unity汽车系统</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/Unity/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Unity</span></a><a class="article-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>代码解析</span></a><a class="article-meta__tags" href="/tags/C/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>C#</span></a></span></div></div><h1 class="post-title" itemprop="name headline">自制载具系统：WheelCollider2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-12-19T14:35:37.000Z" title="发表于 2024-12-19 22:35:37">2024-12-19</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2025-01-25T17:10:24.950Z" title="更新于 2025-01-26 01:10:24">2025-01-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">10.7k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>38分钟</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="自制载具系统：WheelCollider2"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为南京"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>南京</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://pic1.imgdb.cn/item/678ca023d0e0a243d4f59c35.jpg"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://everettrain.cn/2024/12/19/WheelCollider2/"><header><a class="post-meta-categories" href="/categories/Unity%E6%B1%BD%E8%BD%A6%E7%B3%BB%E7%BB%9F/" itemprop="url">Unity汽车系统</a><a href="/tags/Unity/" tabindex="-1" itemprop="url">Unity</a><a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/" tabindex="-1" itemprop="url">代码解析</a><a href="/tags/C/" tabindex="-1" itemprop="url">C#</a><h1 id="CrawlerTitle" itemprop="name headline">自制载具系统：WheelCollider2</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Everett Rain</span><time itemprop="dateCreated datePublished" datetime="2024-12-19T14:35:37.000Z" title="发表于 2024-12-19 22:35:37">2024-12-19</time><time itemprop="dateCreated datePublished" datetime="2025-01-25T17:10:24.950Z" title="更新于 2025-01-26 01:10:24">2025-01-26</time></header><div class="note blue anzhiyufont anzhiyu-icon-bullhorn flat"><p>本博客实现的代码以 Unity Asset Store 中 USHISOFT 的资源代码 WheelCollider2 为参考</p>
+</div>
+<div class="note blue anzhiyufont anzhiyu-icon-bullhorn flat"><p>本博客内容较多，代码量较大，可以直接点击右侧目录跳转到你想看的地方</p>
+</div>
+<h2 id="整体代码">整体代码</h2>
+<HR>
+<h2 id="变量与属性查询">变量与属性查询</h2>
+<p><strong>变量</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名称</th>
+<th style="text-align:left">变量解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SweepType</td>
+<td style="text-align:left">碰撞检测的形状。<br>射线（如 <code>WheelCollider</code>），使用单束光检测与地面的碰撞。可能是最快的，但在有小孔的地面上可能会卡住。<br>球体，检测球体和地面之间的碰撞。<br>圆柱体，使用最接近轮胎形状的圆柱体来确定与地面的碰撞。推荐使用。</td>
+</tr>
+<tr>
+<td style="text-align:center">Radius</td>
+<td style="text-align:left">轮胎半径 (m)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Inertia</td>
+<td style="text-align:left">轮胎惯性矩。<br>惯性矩是衡量物体转动或停止难度的指标。</td>
+</tr>
+<tr>
+<td style="text-align:center">Width</td>
+<td style="text-align:left">轮胎宽度 (m)。用于 <code>SweepType/Cylinder</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">Cylinder Resolution</td>
+<td style="text-align:left">用于 <code>SweepType/Cylinder</code> 的圆柱体网格平滑度。</td>
+</tr>
+<tr>
+<td style="text-align:center">Suspension Spring</td>
+<td style="text-align:left">悬挂弹簧常数 (Nm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Suspension Bump</td>
+<td style="text-align:left">悬挂压缩侧的阻尼力 (Nm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Suspension Rebound</td>
+<td style="text-align:left">悬挂回弹侧的阻尼力 (Nm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Suspension Distance</td>
+<td style="text-align:left">悬挂长度 (m)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Camber Angle</td>
+<td style="text-align:left">倾角 (度)。<br>对于左侧轮胎，设置负值会导致负倾角，设置正值会导致正倾角。<br>对于右侧轮胎，正负值需要反转。如果你想让右侧轮胎有负倾角，设置正值。</td>
+</tr>
+<tr>
+<td style="text-align:center">Toe Angle</td>
+<td style="text-align:left">转向角度 (度)。<br>对于左侧轮胎，负值会导致内束角，正值会导致外束角。<br>对于右侧轮胎，正负值需要反转。如果你想让右侧轮胎有内束角，设置正值。</td>
+</tr>
+<tr>
+<td style="text-align:center">Magic Formula B, C, D, E</td>
+<td style="text-align:left">魔术公式（简化版）的系数，用于计算摩擦力。<br>通过调整这些系数，可以模拟各种路面。<br>D 是摩擦系数。</td>
+</tr>
+<tr>
+<td style="text-align:center">Rolling Resistance Coef</td>
+<td style="text-align:left">滚动阻力系数。</td>
+</tr>
+<tr>
+<td style="text-align:center">Bump Amplitude</td>
+<td style="text-align:left">地面不平整度 (m)。用于模拟砾石路和赛道旁草地等不平整路面。</td>
+</tr>
+<tr>
+<td style="text-align:center">Bump Period</td>
+<td style="text-align:left">地面不平整周期。周期越大，不平整度越短。建议增加细颗粒路面如砾石路的周期大小。</td>
+</tr>
+<tr>
+<td style="text-align:center">Model</td>
+<td style="text-align:left">轮胎的 3D 模型。配置的 3D 模型将根据此组件的状态进行动画处理。即使不设置也没有问题。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>属性</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性名称</th>
+<th style="text-align:left">属性解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SteerAngle</td>
+<td style="text-align:left">转向角度 (度)</td>
+</tr>
+<tr>
+<td style="text-align:center">DriveTorque</td>
+<td style="text-align:left">驱动扭矩 (Nm)。等同于 <code>WheelCollider</code> 的 <code>MotorTorque</code></td>
+</tr>
+<tr>
+<td style="text-align:center">BrakeTorque</td>
+<td style="text-align:left">制动扭矩 (Nm)</td>
+</tr>
+<tr>
+<td style="text-align:center">DrivetrainInertia</td>
+<td style="text-align:left">传动系统惯性矩。驱动轮具有较大的惯性矩，因为它们与传动系统相连。设置这个值对于实现逼真的行为至关重要</td>
+</tr>
+<tr>
+<td style="text-align:center">DrivetrainFrictionTorque</td>
+<td style="text-align:left">传动系统摩擦扭矩 (Nm)</td>
+</tr>
+<tr>
+<td style="text-align:center">AntiRollBarForce</td>
+<td style="text-align:left">防倾杆力 (Nm)</td>
+</tr>
+<tr>
+<td style="text-align:center">Grounded</td>
+<td style="text-align:left">是否接地</td>
+</tr>
+<tr>
+<td style="text-align:center">HitInfo</td>
+<td style="text-align:left">接地点信息</td>
+</tr>
+<tr>
+<td style="text-align:center">CurrentSuspensionDistance</td>
+<td style="text-align:left">当前悬挂长度 (m)。</td>
+</tr>
+<tr>
+<td style="text-align:center">SuspensionCompressionRate</td>
+<td style="text-align:left">悬挂压缩率。</td>
+</tr>
+<tr>
+<td style="text-align:center">AngularVelocity</td>
+<td style="text-align:left">轮胎角速度 (rad/s)。</td>
+</tr>
+<tr>
+<td style="text-align:center">RPM</td>
+<td style="text-align:left">轮胎转速 (rpm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">ForwardDirection</td>
+<td style="text-align:left">纵向摩擦力作用方向。对应 <code>WheelCollider</code> 的 <code>GetGroundHit</code> 获取的 <code>forwardDir</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">ForwardSlip</td>
+<td style="text-align:left">纵向滑移率。对应 <code>WheelCollider</code> 的 <code>GetGroundHit</code> 获取的 <code>forwardSlip</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">ForwardForce</td>
+<td style="text-align:left">垂直方向上的摩擦力 (Nm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">SidewaysDirection</td>
+<td style="text-align:left">横向摩擦力作用方向。对应 <code>WheelCollider</code> 的 <code>GetGroundHit</code> 获取的 <code>sidewaysDir</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">SidewaysSlip</td>
+<td style="text-align:left">横向滑移率。对应 <code>WheelCollider</code> 的 <code>GetGroundHit</code> 获取的 <code>sidewaysSlip</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">SidewaysForce</td>
+<td style="text-align:left">横向摩擦力 (Nm)。</td>
+</tr>
+<tr>
+<td style="text-align:center">Load</td>
+<td style="text-align:left">轮胎负载 (Nm)。对应 <code>WheelCollider</code> 的 <code>GetGroundHit</code> 获取的力。</td>
+</tr>
+<tr>
+<td style="text-align:center">Center</td>
+<td style="text-align:left">轮胎中心坐标 (世界空间)。对应 <code>WheelCollider</code> 的 <code>GetWorldPose</code> 获取的 <code>pos</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">Rotation</td>
+<td style="text-align:left">轮胎旋转 (世界空间)。等同于 <code>WheelCollider</code> 的 <code>GetWorldPose</code> 获取的 <code>quat</code>。</td>
+</tr>
+<tr>
+<td style="text-align:center">PeakSlip</td>
+<td style="text-align:left">摩擦力最大时的滑移率。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="变量解释">变量解释</h2>
+<p>在开始主要程序的编写之前，我们需要先对 <code>WheelCollider2</code> 所需的变量有一个基本的了解</p>
+<h3 id="SweepType-部分">SweepType 部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">enum</span> SweepType</span><br><span class="line">&#123;</span><br><span class="line">    Ray,</span><br><span class="line">    Sphere,</span><br><span class="line">    Cylinder,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> SweepType _sweepType = SweepType.Ray;</span><br></pre></td></tr></table></figure>
+<p><code>SweepType</code> 指的是车轮与地面碰撞检测的三种类型，这里通过枚举让玩家可以自由选择使用哪种方式来配置 <code>WheelCollider2</code></p>
+<ol>
+<li class="lvl-3">
+<p>射线检测（<code>Ray</code>）是指通过单根射线与地面碰撞来实现检测，是性能最优的方法（也是传统 <code>WheelCollider</code> 提供的方法），但很容易卡在地面的小洞中，此时射线无法检测到地面而判断轮胎在空中，从而无法提供动力（哪怕车轮的其他部位都在地面上）。</p>
+</li>
+<li class="lvl-3">
+<p>球体检测（<code>Sphere</code>）是将车轮模拟为一个球体来与地面进行碰撞，是许多游戏模型常用的方法（将车轮的碰撞体用球体代替）。</p>
+</li>
+<li class="lvl-3">
+<p>圆柱体检测（<code>Cylinder</code>）是将车轮模拟为一个侧面着地圆柱体（最符合实际的情况），也是在该类中最推荐的选择。</p>
+</li>
+</ol>
+<h3 id="常量部分">常量部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">const</span> <span class="built_in">float</span> MinDenominator = <span class="number">10f</span>;          <span class="comment">// 用于防止除以零错误或避免在分母非常小的情况下进行除法运算</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">const</span> <span class="built_in">float</span> MinDenominator2 = <span class="number">0.00001f</span>;    <span class="comment">// 同样用于防止除以零错误或避免在分母非常小的情况下进行除法运算</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">const</span> <span class="built_in">int</span> GizmosSmoothness = <span class="number">16</span>;           <span class="comment">// 用于控制 Unity 中 Gizmos 的平滑度或细节级别</span></span><br></pre></td></tr></table></figure>
+<p>此处的两个 <code>MinDenominator</code> 常量均用于防止在后面的变量中出现除以零错误，举个例子：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span> force = CalculateForce();</span><br><span class="line"><span class="built_in">float</span> mass = GetMass();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要一定精度的计算</span></span><br><span class="line"><span class="built_in">float</span> acceleration = force / Mathf.Max(mass, MinDenominator);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要更高精度的计算</span></span><br><span class="line"><span class="built_in">float</span> preciseAcceleration = force / Mathf.Max(mass, MinDenominator2);</span><br></pre></td></tr></table></figure>
+<p>通过 <code>Mathf.Max()</code> 方法将可能很小的变量用 <code>MinDenominator</code> 替代，在一定程度上保证精确度的同时避免除以零错误的产生。</p>
+<h3 id="车轮几何部分">车轮几何部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField, Min(0.001f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _radius = <span class="number">0.3f</span>;         <span class="comment">// 车轮 半径</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0.001f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _inertia = <span class="number">1f</span>;          <span class="comment">// 车轮 质量惯性矩</span></span><br><span class="line"></span><br><span class="line">[<span class="meta">SerializeField, Min(0.001f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _width = <span class="number">0.2f</span>;          <span class="comment">// 车轮 宽度</span></span><br><span class="line">[<span class="meta">SerializeField, Min(8f)</span>] <span class="keyword">private</span> <span class="built_in">int</span> _cylinderResolution = <span class="number">16</span>;     <span class="comment">// 车轮 圆柱分辨率</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li class="lvl-3">
+<p><code>_radius</code> 车轮半径，影响车辆的高度和行驶性能，需要进行初始设定以适配轮胎模型的大小和位置，通过 <code>Min(0.001f)</code> 确定最小值为 0.001。</p>
+</li>
+<li class="lvl-3">
+<p><code>_inertia</code> 车轮质量惯性矩，影响车轮旋转惯性和响应速度。同样最小值为 0.001。</p>
+</li>
+<li class="lvl-3">
+<p><code>_width</code> 车轮宽度，当选择 <code>SweepType</code> 为圆柱体检测时设置圆柱体的侧边高度（即轮胎宽度），影响抓地力和视觉效果。</p>
+</li>
+<li class="lvl-3">
+<p><code>_cylinderResolution</code> 车轮圆柱分辨率，当选择 <code>SweepType</code> 为圆柱体检测时设定轮胎形状的细分程度，影响后续的绘制渲染质量和碰撞检测精度，更高的车轮分辨率意味着车轮更“圆”，更贴合实际轮胎情况，在模拟时可以提供更好的碰撞检测精度，但更高分辨率也会加大性能消耗，建议直接采用默认的 16 即可。</p>
+</li>
+</ol>
+<h3 id="悬挂系统部分">悬挂系统部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _suspensionSpring = <span class="number">40000f</span>;     <span class="comment">// 悬挂系统 弹簧刚度 / 弹簧力度</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _suspensionBump = <span class="number">2000f</span>;        <span class="comment">// 悬挂系统 压缩阻尼系数</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _suspensionRebound = <span class="number">2000f</span>;     <span class="comment">// 悬挂系统 回弹阻尼系数</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0.001f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _suspensionLength = <span class="number">0.1f</span>;   <span class="comment">// 悬挂系统 最大行程长度</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li class="lvl-3">
+<p><code>_suspensionSpring</code> 悬挂系统的弹簧力度，值越大，悬挂到达目标位置的速度越快，车辆在不平路面上的反应更快，但也会传递更多的路面振动到车身；值越小，悬挂更软，可以更好地吸收路面不平带来的冲击，但在快速转弯时可能会导致车身过度侧倾。</p>
+</li>
+<li class="lvl-3">
+<p><code>_suspensionBump</code> 悬挂系统的压缩阻尼系数，即悬挂压缩时的能量消耗速度。值越大，悬挂压缩速度越慢，减少车身在撞击障碍物时的上下跳动，有助于保持轮胎与地面的良好接触；值越小，悬挂压缩越快，允许车身更快地响应路面变化，但可能导致车辆在颠簸路面上的跳跃感增加。</p>
+</li>
+<li class="lvl-3">
+<p><code>_suspensionRebound</code> 悬挂系统的回弹阻尼系数，即悬挂从压缩状态恢复到原始位置时的能量消耗速度。值越大，悬挂回弹越慢，减少车身在压缩后迅速反弹引起的震荡，有助于稳定车身姿态；值越小，悬挂回弹越快，允许车身迅速回复到正常高度，但可能导致车辆在颠簸路面上的频繁跳跃。</p>
+</li>
+<li class="lvl-3">
+<p><code>_suspensionLength</code> 悬挂系统的最大行程长度，即悬挂能够压缩和拉伸的最大距离。值越大，悬挂就能够在更大范围内运动，适合越野环境，能够更好地应对较大的路面起伏；值越小，悬挂运动范围越有限，适合平坦道路，提供更精确的操控反馈。</p>
+</li>
+</ol>
+<h3 id="车轮倾角部分">车轮倾角部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField, Range(-45f, 45f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _camberAngle = <span class="number">0f</span>;     <span class="comment">// 车轮对齐角度 内倾角</span></span><br><span class="line">[<span class="meta">SerializeField, Range(-45f, 45f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _toeAngle = <span class="number">0f</span>;        <span class="comment">// 车轮对齐角度 前束角</span></span><br></pre></td></tr></table></figure>
+<p><strong>内倾角 (Camber Angle, <code>_camberAngle</code>)</strong></p>
+<p>定义：车轮垂直中心线相对于车辆纵向垂直平面的倾斜角度。负内倾角表示车轮顶部向内倾斜，正内倾角表示车轮顶部向外倾斜。</p>
+<ol>
+<li class="lvl-3">
+<p>负内倾角：增加外侧轮胎在转弯时的接地面积，提高抓地力，适合高性能驾驶和赛道使用。</p>
+</li>
+<li class="lvl-3">
+<p>正内倾角：减少外侧轮胎在转弯时的接地面积，降低抓地力，但可能改善直线行驶的稳定性。</p>
+</li>
+<li class="lvl-3">
+<p>零内倾角：车轮完全垂直于地面，适合日常驾驶，提供均衡的操控和轮胎寿命。</p>
+</li>
+</ol>
+<p><strong>前束角 (Toe Angle, <code>_toeAngle</code>)</strong></p>
+<p>定义：车轮前端相对于车辆横向轴线的偏移角度。前束（Toe-in）表示车轮前端向内靠拢，外倾（Toe-out）表示车轮前端向外分开。</p>
+<ol>
+<li class="lvl-3">
+<p>前束（Toe-in）：使车辆在高速行驶时更加稳定，减少转向不足，适合长途驾驶。</p>
+</li>
+<li class="lvl-3">
+<p>外倾（Toe-out）：使车辆更容易转向，增加转向灵敏度，适合赛车和需要快速转向响应的场景。</p>
+</li>
+<li class="lvl-3">
+<p>零前束角：车轮完全平行于车辆横向轴线，适合大多数日常驾驶情况，提供均衡的操控性能和轮胎寿命。</p>
+</li>
+</ol>
+<div calss='anzhiyu-tag-link'><a class="tag-Link" target="_blank" href="https://www.bilibili.com/opus/338018380078973825">
+    <div class="tag-link-tips">引用站外地址</div>
+    <div class="tag-link-bottom">
+        <div class="tag-link-left" style="">
+          <i class="anzhiyufont anzhiyu-icon-link" style=""></i>
+        </div>
+        <div class="tag-link-right">
+            <div class="tag-link-title">Balance磊哥：底盘调校之束角、外倾角、后倾角</div>
+            <div class="tag-link-sitename">对束角和倾角及其原理和作用的简单介绍，可以参考</div>
+        </div>
+        <i class="anzhiyufont anzhiyu-icon-angle-right"></i>
+    </div>
+    </a></div>
+<div class="tip info"><p>如果是制作城市等公路使用的普通车辆，此处推荐直接使用默认的 0 内倾角、0 前束角。</p>
+</div>
+<h3 id="魔术公式部分">魔术公式部分</h3>
+<div class="note orange anzhiyufont anzhiyu-icon-dengpao flat"><p>魔术公式是由荷兰 Delft 理工大学 H.B.Pacejke 教授等人提出并发展起来的，它是用三角函数的组合公式建立的轮胎的纵向力、侧向力和回正力矩的数学模型，因只用一套公式就完整地表达了纯工况下轮胎的力特性，故称为“魔术公式”。</p>
+</div>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> <span class="built_in">float</span> _magicFormulaB = <span class="number">10f</span>;                    <span class="comment">// 形状因子（Shape Factor），影响 力-滑移关系曲线 的宽度</span></span><br><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> <span class="built_in">float</span> _magicFormulaC = <span class="number">1.65f</span>;                  <span class="comment">// 另一个形状因子，主要控制 力-滑移关系曲线 的峰值位置</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _magicFormulaD = <span class="number">1.5f</span>;          <span class="comment">// 峰值因子（Peak Factor），代表了轮胎所能提供的最大侧向力或纵向力的比例</span></span><br><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> <span class="built_in">float</span> _magicFormulaE = <span class="number">0.97f</span>;                  <span class="comment">// 曲率因子（Curvature Factor），影响了 力-滑移关系曲线 的斜率</span></span><br></pre></td></tr></table></figure>
+<p><strong>Magic Formula B (<code>_magicFormulaB</code>)</strong></p>
+<p>Magic Formula 中的一个形状因子（Shape Factor），它影响了该模型中力-滑移关系曲线的宽度。</p>
+<ol>
+<li class="lvl-3">
+<p>较大的 <code>_magicFormulaB</code> 值会使力-滑移曲线更宽，意味着在较大滑移率下仍然能保持较高的抓地力。</p>
+</li>
+<li class="lvl-3">
+<p>较小的 <code>_magicFormulaB</code> 值会使曲线更窄，表示轮胎在较小的滑移率范围内就能达到最大抓地力，但超过这个范围后抓地力迅速下降。</p>
+</li>
+</ol>
+<p><strong>Magic Formula C (<code>_magicFormulaC</code>)</strong></p>
+<p>Magic Formula 中的另一个形状因子，主要控制力-滑移曲线的峰值位置。</p>
+<ol>
+<li class="lvl-3">
+<p>它决定了轮胎在什么滑移率时能达到最大抓地力。</p>
+</li>
+<li class="lvl-3">
+<p>对于不同的轮胎和驾驶条件，优化 <code>_magicFormulaC</code> 可以使轮胎在最需要的时候提供最佳抓地力。</p>
+</li>
+</ol>
+<p><strong>Magic Formula D (<code>_magicFormulaD</code>)</strong></p>
+<p>Magic Formula 中的峰值因子（Peak Factor），代表了轮胎所能提供的最大侧向力或纵向力的比例。</p>
+<ol>
+<li class="lvl-3">
+<p>较高的 <code>_magicFormulaD</code> 值意味着轮胎能够产生更大的力，即更高的抓地力。</p>
+</li>
+<li class="lvl-3">
+<p>该值应根据实际轮胎性能进行调整，过高或过低都会导致模拟不准确。</p>
+</li>
+<li class="lvl-3">
+<p>限制：最小值为 0f，确保非负值。</p>
+</li>
+</ol>
+<p><strong>Magic Formula E (<code>_magicFormulaE</code>)</strong></p>
+<p>Magic Formula 中的曲率因子（Curvature Factor），影响了力-滑移曲线的斜率。</p>
+<ol>
+<li class="lvl-3">
+<p>它决定了曲线在接近峰值时的变化速度，从而影响轮胎从线性区域过渡到非线性区域的行为。</p>
+</li>
+<li class="lvl-3">
+<p>较小的 <code>_magicFormulaE</code> 值可以使曲线更加平缓，表示轮胎在接近极限时仍有较好的渐进性；较大的值则会使曲线更陡峭，表示轮胎一旦超过一定滑移率就迅速失去抓地力。</p>
+</li>
+</ol>
+<p><strong>名词解释：滑移率 (Slip Ratio)</strong></p>
+<p>滑移率是指车轮的旋转速度与其线速度之间的差异比率，主要用于描述车轮的纵向滑动情况。它分为两种类型：</p>
+<ol>
+<li class="lvl-3">
+<p>纵向滑移率（Longitudinal Slip Ratio）：用于描述刹车或加速时车轮的滑动情况，指车轮在旋转时，其实际速度与理论线速度之间的差异比例。</p>
+</li>
+<li class="lvl-3">
+<p>侧向滑移率（Lateral Slip Ratio） 或 侧偏角（Slip Angle）：用于描述转向时车轮的侧向滑动情况，指车轮沿侧向的速度分量与车辆行驶速度的比例。它反映了车辆转弯时轮胎是否能够跟随预期路径。</p>
+</li>
+</ol>
+<p><strong>名词解释：力-滑移关系曲线</strong></p>
+<p>力-滑移关系曲线展示了轮胎产生的力（如侧向力、纵向力）随着滑移率或侧偏角变化的关系。这条曲线是非线性的，并且具有以下特点：</p>
+<ol>
+<li class="lvl-3">
+<p>线性区域：当滑移率或侧偏角较小时，轮胎产生的力与滑移率成正比增加。此时，轮胎处于稳定工作状态，抓地力良好。</p>
+</li>
+<li class="lvl-3">
+<p>峰值点：随着滑移率或侧偏角的增加，轮胎产生的力达到最大值。这个最大值对应于最佳抓地力点，通常发生在一定的滑移率范围内。</p>
+</li>
+<li class="lvl-3">
+<p>非线性区域：超过峰值点后，轮胎产生的力迅速下降，即使滑移率继续增加。这表明轮胎已经失去抓地力，进入了打滑或漂移状态。</p>
+</li>
+</ol>
+<p>魔术公式的详细数学原理：</p>
+<ol>
+<li class="lvl-3">
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jaysur/article/details/103848227">H.B.Pacejke 轮胎模型（魔术公式）</a></p>
+</li>
+<li class="lvl-3">
+<p><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/sdl/ref/tireroadinteractionmagicformula.html">Tire-Road Interaction (Magic Formula)</a></p>
+</li>
+</ol>
+<p>在此不详细叙述其数学原理部分，Magic Formula B、C、D、E 在公式中的应用会在后续的函数中提及。</p>
+<h3 id="轮胎滚动阻力和路面影响">轮胎滚动阻力和路面影响</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _rollingResistanceCoef = <span class="number">0.015f</span>;    <span class="comment">// 轮胎的滚动阻力系数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟路面颠簸</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _bumpAmplitude = <span class="number">0f</span>;                <span class="comment">// 路面上颠簸的最大高度（振幅）</span></span><br><span class="line">[<span class="meta">SerializeField, Min(0f)</span>] <span class="keyword">private</span> <span class="built_in">float</span> _bumpPeriod = <span class="number">0f</span>;                   <span class="comment">// 路面上颠簸之间的距离（波长）</span></span><br></pre></td></tr></table></figure>
+<p><strong>滚动阻力系数 (<code>_rollingResistanceCoef</code>)</strong></p>
+<p>定义轮胎的滚动阻力系数，这是一个无量纲的比例因子，用于计算滚动阻力。</p>
+<ol>
+<li class="lvl-3">
+<p>滚动阻力是轮胎在滚动时由于变形、摩擦等因素而产生的阻力。它直接影响车辆的燃油效率和加速性能。</p>
+</li>
+<li class="lvl-3">
+<p>较高的 <code>_rollingResistanceCoef</code> 值意味着更大的滚动阻力，导致车辆需要更多的能量来维持速度，影响加速性和油耗。</p>
+</li>
+<li class="lvl-3">
+<p>较低的值则表示较小的滚动阻力，有助于提高燃油经济性和加速性能，但可能降低抓地力。</p>
+</li>
+</ol>
+<p><strong>颠簸幅度 (<code>_bumpAmplitude</code>)</strong></p>
+<p>定义路面上颠簸的最大高度（振幅），用于模拟不平整路面的效果。</p>
+<ol>
+<li class="lvl-3">
+<p>这个参数用于模拟道路上的起伏，如减速带、坑洼或其他障碍物。</p>
+</li>
+<li class="lvl-3">
+<p>较大的 _bumpAmplitude 值表示更剧烈的路面变化，可能导致车辆更频繁和剧烈的上下运动。</p>
+</li>
+<li class="lvl-3">
+<p>设置为 0f 表示没有明显的路面不平度，适用于模拟平坦的道路条件。</p>
+</li>
+</ol>
+<p><strong>颠簸周期 (<code>_bumpPeriod</code>)</strong></p>
+<p>定义路面上颠簸之间的距离（波长），用于控制颠簸的频率。</p>
+<ol>
+<li class="lvl-3">
+<p>这个参数决定了颠簸出现的频率。较大的 _bumpPeriod 值表示颠簸之间的距离较长，车辆经过两次颠簸的时间间隔较大；较小的值则表示颠簸更加密集。</p>
+</li>
+<li class="lvl-3">
+<p>设置为 0f 表示没有明确的周期性颠簸，适用于模拟随机或无规律的路面状况。</p>
+</li>
+</ol>
+<h3 id="交互部分">交互部分</h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用来绑定车轮模型，运行期间将物理模拟的结果传递给车轮模型使其转动</span></span><br><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> Transform _model;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调试模式开关，方便进行 Debug</span></span><br><span class="line">[<span class="meta">SerializeField</span>] <span class="keyword">private</span> <span class="built_in">bool</span> _debug = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮的刚体</span></span><br><span class="line"><span class="keyword">private</span> Rigidbody _rigidbody;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义 CylinderCaster 类</span></span><br><span class="line"><span class="keyword">private</span> CylinderCaster _cylinderCaster;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 摩擦力最大时的滑移率</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _peakSlip;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否处于地面上</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">bool</span> _grounded;</span><br><span class="line"><span class="comment">// 接地点信息</span></span><br><span class="line"><span class="keyword">private</span> RaycastHit _hitInfo;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 存储轮胎与地面接触点的位置</span></span><br><span class="line"><span class="keyword">private</span> Vector3 _contactPosition;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>CylinderCaster</code> 为自定义类，详细信息可以在 <a target="_blank" rel="noopener" href="https://www.everettrain.cn/2024/12/20/CylinderCaster/">自制载具系统：CylinderCaster</a> 中找到</p>
+<h3 id="车辆行为内部变量">车辆行为内部变量</h3>
+<p>此部分变量为 <code>WheelCollider2</code> 运行时发生变化的内部变量，用来记录车辆运行时的部分参数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _suspensionCompression;       <span class="comment">// 悬挂压缩量，表示当前悬挂被压缩的程度</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _suspensionPrevCompression;   <span class="comment">// 上一帧的悬挂压缩量，用于计算悬挂的变化率</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _antiRollBarForce;            <span class="comment">// 防倾杆产生的力，用于抵抗车身侧倾</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Vector3 _forwardDirection;          <span class="comment">// 车轮前方的方向向量</span></span><br><span class="line"><span class="keyword">private</span> Vector3 _sidewaysDirection;         <span class="comment">// 车轮侧面的方向向量</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _currentCamberAngle;           <span class="comment">// 当前车轮的倾角（以弧度为单位）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _forwardVelocity;             <span class="comment">// 车轮沿前进方向的速度分量</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _sidewaysVelocity;            <span class="comment">// 车轮沿侧向的速度分量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _forwardSlip;                 <span class="comment">// 车轮沿前进方向的滑移率</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _sidewaysSlip;                <span class="comment">// 车轮沿侧向的滑移率</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _slipMagnitude;               <span class="comment">// 滑移的总大小，即前向和侧向滑移的组合</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _load;                        <span class="comment">// 作用在车轮上的载荷，影响抓地力</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _forwardForce;                <span class="comment">// 作用在车轮上的前向力，如驱动力或阻力</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _sidewaysForce;               <span class="comment">// 作用在车轮上的侧向力，如转弯时的离心力</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _angleInRadian;               <span class="comment">// 车轮角度（以弧度为单位），可用于计算转向角度</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _angularVelocity;             <span class="comment">// 车轮的角速度，用于模拟旋转</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _steerAngle;                  <span class="comment">// 车轮的转向角度</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _driveTorque;                 <span class="comment">// 应用于驱动轴的扭矩</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _brakeTorque;                 <span class="comment">// 应用于制动的扭矩</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _drivetrainInertia;           <span class="comment">// 动力传动系统的惯性，影响加速和减速特性</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">float</span> _drivetrainFrictionTorque;    <span class="comment">// 动力传动系统的摩擦扭矩，模拟内部摩擦损失</span></span><br></pre></td></tr></table></figure>
+<p><strong>名词解释：防倾杆</strong></p>
+<p>防倾杆（Anti-roll bar），也被称为稳定杆或抗侧倾杆，是一种用于减少车辆在转弯时车身侧倾的悬挂系统组件。它通过连接左右两侧的悬挂来平衡车轮的运动，从而改善车辆的操控性和稳定性。</p>
+<p>防倾杆通常由一根扭力杆构成，两端分别连接到车辆两侧的悬挂臂上，并且中间固定在车架或副车架上。当车辆转弯时，外侧悬挂会受到向上的力而拉伸，内侧悬挂则受到向下的力而压缩。防倾杆的作用就是在这两个悬挂之间传递扭转力，以抵抗这种差异，减小车身侧倾的程度。</p>
+<h3 id="变量读写权限">变量读写权限</h3>
+<p><strong>可读可写部分</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 车轮模型的Transform，用于关联3D模型的位置和旋转。</span></span><br><span class="line"><span class="keyword">public</span> Transform Model</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _model;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _model = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 轮胎半径，最小值被限制为0.001以避免除零错误或不合理的小值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> Radius</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _radius;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _radius = Mathf.Max(<span class="keyword">value</span>, <span class="number">0.001f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 轮胎惯性矩，最小值被限制为0.001以确保物理计算的稳定性。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> Inertia</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _inertia;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _inertia = Mathf.Max(<span class="keyword">value</span>, <span class="number">0.001f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 轮胎宽度，最小值被限制为0.001以确保合理的尺寸。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> Width</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _width;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _width = Mathf.Max(<span class="keyword">value</span>, <span class="number">0.001f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 圆柱体解析度，决定了轮胎形状的精细程度，最小值被限制为8以保证足够的细节。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">int</span> CylinderResolution</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _cylinderResolution;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _cylinderResolution = Mathf.Max(<span class="keyword">value</span>, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 悬挂弹簧刚度，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SuspensionSpring</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionSpring;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _suspensionSpring = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 悬挂压缩阻尼，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SuspensionBump</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionBump;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _suspensionBump = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 悬挂回弹阻尼，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SuspensionRebound</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionRebound;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _suspensionRebound = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 悬挂行程长度，最小值被限制为0.001以确保悬挂系统有实际作用。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SuspensionLength</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionLength;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _suspensionLength = Mathf.Max(<span class="keyword">value</span>, <span class="number">0.001f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮倾角（Camber Angle），范围限制在-45到45度之间，以防止极端角度影响操控。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> CamberAngle</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _camberAngle;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _camberAngle = Mathf.Clamp(<span class="keyword">value</span>, <span class="number">-45f</span>, <span class="number">45f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮外倾角（Toe Angle），同样范围限制在-45到45度之间。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> ToeAngle</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _toeAngle;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _toeAngle = Mathf.Clamp(<span class="keyword">value</span>, <span class="number">-45f</span>, <span class="number">45f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Magic Formula B 参数，直接赋值，没有特别的边界检查。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> MagicFormulaB</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _magicFormulaB;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _magicFormulaB = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Magic Formula C 参数，直接赋值，没有特别的边界检查。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> MagicFormulaC</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _magicFormulaC;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _magicFormulaC = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Magic Formula D 参数，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> MagicFormulaD</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _magicFormulaD;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _magicFormulaD = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Magic Formula E 参数，直接赋值，没有特别的边界检查。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> MagicFormulaE</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _magicFormulaE;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _magicFormulaE = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滚动阻力系数，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> RollingResistanceCoef</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _rollingResistanceCoef;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _rollingResistanceCoef = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 减震器振幅，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> BumpAmplitude</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _bumpAmplitude;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _bumpAmplitude = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 减震器周期，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> BumpPeriod</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _bumpPeriod;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _bumpPeriod = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转向角度，直接赋值，没有特别的边界检查。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SteerAngle</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _steerAngle;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _steerAngle = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 驱动扭矩，直接赋值，可以是正值或负值，取决于驱动方向。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> DriveTorque</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _driveTorque;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _driveTorque = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 制动扭矩，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> BrakeTorque</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _brakeTorque;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _brakeTorque = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 动力传动系统的惯性，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> DrivetrainInertia</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _drivetrainInertia;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _drivetrainInertia = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 动力传动系统的摩擦扭矩，不允许为负值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> DrivetrainFrictionTorque</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _drivetrainFrictionTorque;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _drivetrainFrictionTorque = Mathf.Max(<span class="keyword">value</span>, <span class="number">0f</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 防倾杆产生的力，直接赋值，可以是任意值。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> AntiRollBarForce</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _antiRollBarForce;</span><br><span class="line">    <span class="keyword">set</span> =&gt; _antiRollBarForce = <span class="keyword">value</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>只读部分</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 是否与地面接触，用于判断车轮是否处于悬空状态。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">bool</span> Grounded</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _grounded;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 雷达碰撞检测的信息，包含与地面或其他物体碰撞的具体细节。</span></span><br><span class="line"><span class="keyword">public</span> RaycastHit HitInfo</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _hitInfo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮与地面接触点的位置。</span></span><br><span class="line"><span class="keyword">public</span> Vector3 ContactPosition</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _contactPosition;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当前悬挂的实际长度，考虑了悬挂的压缩量。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> CurrentSuspensionLength</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionLength - _suspensionCompression;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 悬挂压缩的比例，表示悬挂被压缩的程度相对于其总长度。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SuspensionCompressionRate</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _suspensionCompression / _suspensionLength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮的角速度，用于描述车轮旋转的速度。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> AngularVelocity</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _angularVelocity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮的转速（RPM），通过角速度转换而来，单位是每分钟转数。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> RPM</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _angularVelocity * EngineMath.RPSToRPM; <span class="comment">// 假设EngineMath类中有一个RPSToRPM常量或方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮前方的方向向量，用于计算摩擦力和其他力的方向。</span></span><br><span class="line"><span class="keyword">public</span> Vector3 ForwardDirection</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _forwardDirection;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作用在车轮上的前向力，如驱动力或阻力。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> ForwardForce</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _forwardForce;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮沿前进方向的滑移率，影响抓地力和操控性。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> ForwardSlip</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _forwardSlip;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑移的总大小，可能是前向和侧向滑移的组合，用于评估轮胎的整体滑移情况。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SlipMagnitude</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _slipMagnitude;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮侧面的方向向量，用于计算横向摩擦力和其他力的方向。</span></span><br><span class="line"><span class="keyword">public</span> Vector3 SidewaysDirection</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _sidewaysDirection;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作用在车轮上的侧向力，如转弯时的离心力。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SidewaysForce</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _sidewaysForce;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮沿侧向的滑移率，影响抓地力和稳定性。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> SidewaysSlip</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _sidewaysSlip;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 作用在车轮上的载荷，影响轮胎的抓地力。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> Load</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _load;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮中心位置，基于悬挂压缩调整后的实际位置。</span></span><br><span class="line"><span class="keyword">public</span> Vector3 Center</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; transform.position - transform.up * CurrentSuspensionLength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 车轮的完整旋转状态，包括转向角度、外倾角、倾角以及车轮自身的旋转角度。</span></span><br><span class="line"><span class="keyword">public</span> Quaternion Rotation</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; transform.rotation                                       <span class="comment">// 基础的旋转状态，通常由车辆的整体旋转决定。</span></span><br><span class="line">        * Quaternion.Euler(<span class="number">0f</span>, _steerAngle + _toeAngle, <span class="number">0f</span>)         <span class="comment">// 应用了转向角度和外倾角。转向角度 _steerAngle 控制车轮相对于车辆前进方向的偏转，而外倾角 _toeAngle 则是轮胎安装时相对于车辆中心线的小角度调整。</span></span><br><span class="line">        * Quaternion.Euler(<span class="number">0f</span>, <span class="number">0f</span>, _camberAngle)                    <span class="comment">// 应用了倾角 _camberAngle，它指的是轮胎安装时相对于垂直方向的倾斜角度。正的倾角意味着轮胎顶部向内倾斜。</span></span><br><span class="line">        * Quaternion.Euler(_angleInRadian * Mathf.Rad2Deg, <span class="number">0f</span>, <span class="number">0f</span>); <span class="comment">// 将弧度表示的车轮旋转角度转换为欧拉角，并应用于车轮旋转。这确保了车轮能够正确地模拟其自旋。</span></span><br><span class="line">&#125;                                                                   <span class="comment">// Mathf.Rad2Deg 是一个用于将弧度转换为度数的常量。这个常量的值等于 &quot;360 / (PI * 2)&quot;，它提供了一个简单的方法来执行弧度到度的转换。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 最大滑移率，指在特定条件下，轮胎能够提供的最大抓地力对应的滑移率。</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">float</span> PeakSlip</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> =&gt; _peakSlip;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<HR>
+<h2 id="方法部分">方法部分</h2>
+<h3 id="初始化方法-Awake">初始化方法 <code>Awake</code></h3>
+<h3 id="固定每帧更新方法-FixedUpdate">固定每帧更新方法 <code>FixedUpdate</code></h3>
+<h3 id="绘制辅助图形方法-OnDrawGizmos">绘制辅助图形方法 <code>OnDrawGizmos</code></h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">OnDrawGizmos</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    Gizmos.color = Color.green;</span><br><span class="line"></span><br><span class="line">    Gizmos.DrawLine(transform.position, Center);</span><br><span class="line"></span><br><span class="line">    Gizmos.matrix = Matrix4x4.TRS(Center, Rotation, transform.lossyScale);</span><br><span class="line">    <span class="keyword">switch</span> (_sweepType)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> SweepType.Ray:</span><br><span class="line">            DrawCircle(<span class="number">0f</span>);</span><br><span class="line">            Gizmos.DrawLine(Vector3.zero, GetLocalPointOnCircumference(<span class="number">0f</span>, <span class="number">0f</span>));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> SweepType.Sphere:</span><br><span class="line">            Gizmos.DrawWireSphere(Vector3.zero, _radius);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> SweepType.Cylinder:</span><br><span class="line">            DrawCircle(-_width / <span class="number">2f</span>);</span><br><span class="line">            DrawCircle(_width / <span class="number">2f</span>);</span><br><span class="line">            Gizmos.DrawLine(Vector3.zero, GetLocalPointOnCircumference(<span class="number">0f</span>, <span class="number">0f</span>));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Gizmos.matrix = Matrix4x4.identity;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DrawCircle</span>(<span class="params"><span class="built_in">float</span> x</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; GizmosSmoothness; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> angleInRad1 = <span class="number">2f</span> * Mathf.PI * (<span class="built_in">float</span>)i / (<span class="built_in">float</span>)GizmosSmoothness;</span><br><span class="line">        <span class="keyword">var</span> angleInRad2 = <span class="number">2f</span> * Mathf.PI * (<span class="built_in">float</span>)(i + <span class="number">1</span>) / (<span class="built_in">float</span>)GizmosSmoothness;</span><br><span class="line">        Gizmos.DrawLine(</span><br><span class="line">            GetLocalPointOnCircumference(angleInRad1, x),</span><br><span class="line">            GetLocalPointOnCircumference(angleInRad2, x));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Vector3 <span class="title">GetLocalPointOnCircumference</span>(<span class="params"><span class="built_in">float</span> angleInRadian, <span class="built_in">float</span> x</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Vector3(</span><br><span class="line">        x,</span><br><span class="line">        Mathf.Sin(angleInRadian) * _radius,</span><br><span class="line">        -Mathf.Cos(angleInRadian) * _radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>绘制悬挂</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gizmos.DrawLine(transform.position, Center);</span><br></pre></td></tr></table></figure>
+<p>从车轮的当前位置（transform.position）到计算出的车轮中心位置（Center）之间绘制一条直线。</p>
+<div class="note orange anzhiyufont anzhiyu-icon-dengpao flat"><p>注意：由于 WheelCollider2 需要绑定在一个相对车辆固定的 Empty 物体上，所以此处的 <code>transform.position</code> 实际上获取的是车轮固定在车辆上的位置（相当于初始悬挂位置，不受悬挂影响），而 <code>Center</code> 则代表车轮计算出的当前位置（受到悬挂影响），所以二者连线可以表示悬挂对轮胎的位置影响</p>
+</div>
+<p><strong>设置矩阵以应用 transform 变换</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gizmos.matrix = Matrix4x4.TRS(Center, Rotation, transform.lossyScale);</span><br></pre></td></tr></table></figure>
+<p>设置当前Gizmos的变换矩阵（Matrix），以应用位置（Translation）、旋转（Rotation）和缩放（Scale）。</p>
+<ol>
+<li class="lvl-3">
+<p><code>TRS</code> 是 “Translation, Rotation, Scale” 的缩写，表示依次应用平移、旋转和缩放。</p>
+</li>
+<li class="lvl-3">
+<p><code>Center</code> 是之前计算得到的车轮实际中心位置。</p>
+</li>
+<li class="lvl-3">
+<p><code>Rotation</code> 是车轮的完整旋转状态。</p>
+</li>
+<li class="lvl-3">
+<p><code>transform.lossyScale</code> 获取了对象的累积缩放值，确保Gizmos正确反映物体的实际大小。</p>
+</li>
+</ol>
+<p><strong>绘制 Gizmos</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (_sweepType)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> SweepType.Ray:</span><br><span class="line">        DrawCircle(<span class="number">0f</span>);</span><br><span class="line">        Gizmos.DrawLine(Vector3.zero, GetLocalPointOnCircumference(<span class="number">0f</span>, <span class="number">0f</span>));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> SweepType.Sphere:</span><br><span class="line">        Gizmos.DrawWireSphere(Vector3.zero, _radius);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> SweepType.Cylinder:</span><br><span class="line">        DrawCircle(-_width / <span class="number">2f</span>);</span><br><span class="line">        DrawCircle(_width / <span class="number">2f</span>);</span><br><span class="line">        Gizmos.DrawLine(Vector3.zero, GetLocalPointOnCircumference(<span class="number">0f</span>, <span class="number">0f</span>));</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此处根据不同的扫掠类型（<code>SweepType</code>），选择绘制不同形状的Gizmos。</p>
+<ol>
+<li class="lvl-3">
+<p><code>SweepType.Ray</code>：绘制一个圆形，并从原点到轮胎边缘上弧度为 0 处的点绘制一条线，这条线会随着车轮旋转而旋转，可以用来可视化车轮旋转。</p>
+</li>
+<li class="lvl-3">
+<p><code>SweepType.Sphere</code>：绘制一个空心球体（Wire Sphere），其半径为 _radius。这可以用来可视化轮胎的碰撞体积。</p>
+</li>
+<li class="lvl-3">
+<p><code>SweepType.Cylinder</code>：绘制两个圆形，分别位于宽度的两侧（<code>-_width / 2f</code> 和 <code>_width / 2f</code>），并从原点到轮胎边缘上弧度为 0 处的点绘制一条线，这条线会随着车轮旋转而旋转，可以用来可视化车轮转动和转过的角度。</p>
+</li>
+</ol>
+<p><strong>重置变换矩阵</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gizmos.matrix = Matrix4x4.identity;</span><br></pre></td></tr></table></figure>
+<p>可以确保后续的 Gizmos 绘制不会受到之前设置的变换矩阵的影响，让 transform 的变换回到默认的世界坐标系。</p>
+<p><strong><code>DrawCircle(float)</code> 方法</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DrawCircle</span>(<span class="params"><span class="built_in">float</span> x</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; GizmosSmoothness; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> angleInRad1 = <span class="number">2f</span> * Mathf.PI * (<span class="built_in">float</span>)i / (<span class="built_in">float</span>)GizmosSmoothness;</span><br><span class="line">        <span class="keyword">var</span> angleInRad2 = <span class="number">2f</span> * Mathf.PI * (<span class="built_in">float</span>)(i + <span class="number">1</span>) / (<span class="built_in">float</span>)GizmosSmoothness;</span><br><span class="line">        Gizmos.DrawLine(</span><br><span class="line">            GetLocalPointOnCircumference(angleInRad1, x),</span><br><span class="line">            GetLocalPointOnCircumference(angleInRad2, x));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作用：绘制一个圆，其中心位于 (x, 0, 0)，半径为 <code>_radius</code>。</p>
+<ol>
+<li class="lvl-3">
+<p>循环遍历角度：for 循环迭代 <code>GizmosSmoothness</code> 次，而这决定了圆的平滑度（即使用多少个线段来近似表示圆）。值越大，绘制的圆越平滑。</p>
+</li>
+<li class="lvl-3">
+<p><code>angleInRad1</code> 和 <code>angleInRad2</code> 分别是当前点和下一个点的角度（以弧度为单位），通过公式 2 * PI * i / GizmosSmoothness 计算得出。这确保了角度均匀分布在一个完整的圆周上（360 度或 2π 弧度）。</p>
+</li>
+<li class="lvl-3">
+<p>绘制线段：<code>Gizmos.DrawLine</code> 方法用于在两个连续的角度位置之间绘制一条直线。它调用了 GetLocalPointOnCircumference 来获取这些位置的坐标。</p>
+</li>
+</ol>
+<p><strong><code>GetLocalPointOnCircumference(float angleInRadian, float x)</code> 方法</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Vector3 <span class="title">GetLocalPointOnCircumference</span>(<span class="params"><span class="built_in">float</span> angleInRadian, <span class="built_in">float</span> x</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Vector3(</span><br><span class="line">        x,</span><br><span class="line">        Mathf.Sin(angleInRadian) * _radius,</span><br><span class="line">        -Mathf.Cos(angleInRadian) * _radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作用：根据给定的角度（弧度）和偏移量 x，返回圆周上的一个点的位置（Vector3）。</p>
+<ol>
+<li class="lvl-3">
+<p>构造 Vector3：这个方法使用正弦和余弦函数来计算圆周上的点的 y 和 z 坐标，而 x 坐标则直接使用传入的参数 x。</p>
+</li>
+<li class="lvl-3">
+<p><code>Mathf.Sin(angleInRadian) * _radius</code> 计算 y 坐标，即从圆心到该点的垂直距离。</p>
+</li>
+<li class="lvl-3">
+<p><code>-Mathf.Cos(angleInRadian) * _radius</code> 计算 z 坐标，负号确保圆周按预期方向绘制（逆时针）。</p>
+</li>
+<li class="lvl-3">
+<p>传入的 x 直接作为 x 坐标，使得圆可以沿 x 轴偏移，从而绘制不同位置的圆周。</p>
+</li>
+<li class="lvl-3">
+<p>返回这个计算出的 Vector3 值。</p>
+</li>
+</ol>
+<h3 id="扫描检测方法-Sweep">扫描检测方法 <code>Sweep</code></h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Sweep</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">switch</span> (_sweepType)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> SweepType.Ray:</span><br><span class="line">            _grounded = Physics.Raycast(</span><br><span class="line">                transform.position,</span><br><span class="line">                -transform.up,</span><br><span class="line">                <span class="keyword">out</span> _hitInfo,</span><br><span class="line">                _suspensionLength + _radius);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> SweepType.Sphere:</span><br><span class="line">            _grounded = Physics.SphereCast(</span><br><span class="line">                transform.position + transform.up * _radius,</span><br><span class="line">                _radius,</span><br><span class="line">                -transform.up,</span><br><span class="line">                <span class="keyword">out</span> _hitInfo,</span><br><span class="line">                _suspensionLength + _radius);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> SweepType.Cylinder:</span><br><span class="line">            UpdateCylinderCaster();</span><br><span class="line"></span><br><span class="line">            _grounded = _cylinderCaster.Cast(</span><br><span class="line">                -transform.up,</span><br><span class="line">                <span class="keyword">out</span> _hitInfo,</span><br><span class="line">                _suspensionLength + _radius);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateCylinderCaster</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_sweepType != SweepType.Cylinder)                               <span class="comment">// 如果 SweepType 不为 Cylinder 则直接跳过</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_cylinderCaster == <span class="literal">null</span>)                                        <span class="comment">// 如果 CylinderCaster 对象为空则初始化一个该对象</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> go = <span class="keyword">new</span> GameObject(<span class="string">&quot;CylinderCast&quot;</span>);                        <span class="comment">// 新建 GameObject 用来挂载 CylinderCaster 的 Monobehaviour</span></span><br><span class="line">        go.transform.parent = transform;                                <span class="comment">// 将新 GameObject 设为挂有 WheelCollider2 的空物体的子物体</span></span><br><span class="line">        go.transform.localPosition = Vector3.up * _radius;              <span class="comment">// 调整子物体局部坐标，确保生成的圆柱体中心位于轮胎中心</span></span><br><span class="line">        _cylinderCaster = go.AddComponent&lt;CylinderCaster&gt;();            <span class="comment">// 挂载 CylinderCaster，此时触发 CylinderCaster 内的 Awake 函数</span></span><br><span class="line">        _cylinderCaster.Init(_radius, _width, _cylinderResolution);     <span class="comment">// 使用 CylinderCaster 的 Init 方法初始化该新类</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_cylinderCaster.Radius != _radius</span><br><span class="line">        || _cylinderCaster.Width != _width</span><br><span class="line">        || _cylinderCaster.Resolution != _cylinderResolution)           <span class="comment">// 同时判断三个条件是否符合，确保 CylinderCaster 的参数与实际始终保持一致</span></span><br><span class="line">    &#123;</span><br><span class="line">        _cylinderCaster.transform.localPosition = Vector3.up * _radius;</span><br><span class="line">        _cylinderCaster.Init(_radius, _width, _cylinderResolution);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _cylinderCaster.transform.localEulerAngles = <span class="keyword">new</span> Vector3(           <span class="comment">// 更新 CylinderCaster 的本地旋转，使其与车轮的姿态匹配</span></span><br><span class="line">        <span class="number">0f</span>,</span><br><span class="line">        _steerAngle + _toeAngle,                                        <span class="comment">// 使用车轮传出的 steerAngle 和 toeAngle 更新车轮的转向角和束角</span></span><br><span class="line">        _camberAngle);                                                  <span class="comment">// 在 Z 向上更新车轮给出的 camberAngle 倾角 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法根据选择的 SweepType 的不同，分别选择不同的方式进行对地面的扫描。</p>
+<p><strong>SweepType.Ray 射线式扫描</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> SweepType.Ray:</span><br><span class="line">    _grounded = Physics.Raycast(</span><br><span class="line">        transform.position,</span><br><span class="line">        -transform.up,</span><br><span class="line">        <span class="keyword">out</span> _hitInfo,</span><br><span class="line">        _suspensionLength + _radius);</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li class="lvl-3">
+<p><code>Physics.Raycast</code> 方法接收到给出的变量，发出一条从 <code>transform.position</code> 开始沿 <code>-transform.up</code> 方向的射线。</p>
+</li>
+<li class="lvl-3">
+<p>射线的最大长度是 <code>_suspensionLength + _radius</code>，这意味着射线会延伸到悬挂系统的最大伸展长度加上轮子半径的位置。</p>
+</li>
+<li class="lvl-3">
+<p>只有当物体在空中时，即使悬挂伸长到最大长度轮胎也无法触碰地面。所以如果射线击中了任何碰撞体，则表示物体不在空中， <code>_grounded</code> 变量会被设置为 true，表示物体接地；否则，它保持 false。</p>
+</li>
+<li class="lvl-3">
+<p><code>out _hitInfo</code> 参数允许获取关于撞击点的额外信息（如位置、法线等），但此处并未获取。</p>
+</li>
+</ol>
+<p><strong>SweepType.Sphere 球体式扫描</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> SweepType.Sphere:</span><br><span class="line">    _grounded = Physics.SphereCast(</span><br><span class="line">        transform.position + transform.up * _radius,</span><br><span class="line">        _radius,</span><br><span class="line">        -transform.up,</span><br><span class="line">        <span class="keyword">out</span> _hitInfo,</span><br><span class="line">        _suspensionLength + _radius);</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li class="lvl-3">
+<p><code>Physics.SphereCast</code> 沿着 <code>-transform.up</code> 方向投射一个球体，起始于 <code>transform.position + transform.up * _radius</code>，也就是从轮胎的上边缘点出发，沿向下方向投射一个半径为 <code>_radius</code> 的球体，此时球体中心会正好处于轮胎的几何中心。</p>
+</li>
+<li class="lvl-3">
+<p>射线的最大长度同样是 <code>_suspensionLength + _radius</code>，这意味着射线会延伸到悬挂系统的最大伸展长度加上轮子半径的位置。</p>
+</li>
+<li class="lvl-3">
+<p>类似于 Raycast，SphereCast 也会更新 <code>_grounded</code> 和 <code>_hitInfo</code>，基于是否有一个碰撞体在球体路径上。</p>
+</li>
+</ol>
+<p><strong>SweepType.Cylinder 圆柱体式扫描</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> SweepType.Cylinder:</span><br><span class="line">    UpdateCylinderCaster();</span><br><span class="line"></span><br><span class="line">    _grounded = _cylinderCaster.Cast(</span><br><span class="line">        -transform.up,</span><br><span class="line">        <span class="keyword">out</span> _hitInfo,</span><br><span class="line">        _suspensionLength + _radius);</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li class="lvl-3">
+<p>在进行圆柱体检测之前，<code>UpdateCylinderCaster()</code> 方法被调用，可能是为了更新圆柱体检测器的状态或参数，使其适应当前物体的姿势或其他属性。</p>
+</li>
+<li class="lvl-3">
+<p><code>_cylinderCaster.Cast</code> 执行一次圆柱体检测，沿 <code>-transform.up</code> 方向进行，最大检测距离为 <code>_suspensionLength + _radius</code>。</p>
+</li>
+<li class="lvl-3">
+<p>结果同样更新 <code>_grounded</code> 和 <code>_hitInfo</code>。</p>
+</li>
+</ol>
+<p><strong><code>UpdateCylinderCaster()</code> 方法</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateCylinderCaster</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_sweepType != SweepType.Cylinder)                               <span class="comment">// 如果 SweepType 不为 Cylinder 则直接跳过</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_cylinderCaster == <span class="literal">null</span>)                                        <span class="comment">// 如果 CylinderCaster 对象为空则初始化一个该对象</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> go = <span class="keyword">new</span> GameObject(<span class="string">&quot;CylinderCast&quot;</span>);                        <span class="comment">// 新建 GameObject 用来挂载 CylinderCaster 的 Monobehaviour</span></span><br><span class="line">        go.transform.parent = transform;                                <span class="comment">// 将新 GameObject 设为挂有 WheelCollider2 的空物体的子物体</span></span><br><span class="line">        go.transform.localPosition = Vector3.up * _radius;              <span class="comment">// 调整子物体局部坐标，确保生成的圆柱体中心位于轮胎中心</span></span><br><span class="line">        _cylinderCaster = go.AddComponent&lt;CylinderCaster&gt;();            <span class="comment">// 挂载 CylinderCaster，此时触发 CylinderCaster 内的 Awake 函数</span></span><br><span class="line">        _cylinderCaster.Init(_radius, _width, _cylinderResolution);     <span class="comment">// 使用 CylinderCaster 的 Init 方法初始化该新类</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_cylinderCaster.Radius != _radius</span><br><span class="line">        || _cylinderCaster.Width != _width</span><br><span class="line">        || _cylinderCaster.Resolution != _cylinderResolution)           <span class="comment">// 同时判断三个条件是否符合，确保 CylinderCaster 的参数与实际始终保持一致</span></span><br><span class="line">    &#123;</span><br><span class="line">        _cylinderCaster.transform.localPosition = Vector3.up * _radius;</span><br><span class="line">        _cylinderCaster.Init(_radius, _width, _cylinderResolution);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _cylinderCaster.transform.localEulerAngles = <span class="keyword">new</span> Vector3(           <span class="comment">// 更新 CylinderCaster 的本地旋转，使其与车轮的姿态匹配</span></span><br><span class="line">        <span class="number">0f</span>,</span><br><span class="line">        _steerAngle + _toeAngle,                                        <span class="comment">// 使用车轮传出的 steerAngle 和 toeAngle 更新车轮的转向角和束角</span></span><br><span class="line">        _camberAngle);                                                  <span class="comment">// 在 Z 向上更新车轮给出的 camberAngle 倾角 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作用：初始化和更新用于圆柱体检测的 <code>CylinderCaster</code> 组件</p>
+<ol>
+<li class="lvl-3">
+<p>先根据 <code>SweepType</code> 的值来确定是否需要使用该函数，如果不为圆柱体类型则直接跳过该函数。</p>
+</li>
+<li class="lvl-3">
+<p>初始化 <code>CylinderCaster</code> 类，如果检测不到该 <code>WheelCollider2</code> 对象含有 <code>CylinderCaster</code> 则新建一个并传入设定好的值进行初始化。</p>
+</li>
+<li class="lvl-3">
+<p>持续判断半径、宽度、分辨率三个条件是否与实际情况符合，如果不符合则重新确定位置并初始化。</p>
+</li>
+<li class="lvl-3">
+<p>更新 <code>CylinderCaster</code> 的本地旋转，应用车轮的转向、倾角和束角，其中倾角 CamberAngle 为车轮与地面之间的夹角与 90 度的差值，由车轮绕 Z 轴旋转得到；转向角为车辆转向时车轮的偏角，束角 ToeAngle 是指的我们从车辆正上方看车子的时候，轮胎与车辆中轴线形成的夹角，这两个角度由车轮绕 Y 轴（垂直地面轴）旋转得到。</p>
+</li>
+</ol>
+<h3 id="更新轮胎状态方法-UpdateState">更新轮胎状态方法 <code>UpdateState</code></h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">UpdateStates</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    _suspensionPrevCompression = _suspensionCompression;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_grounded)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> localAddForcePos = transform.InverseTransformPoint(_hitInfo.point);</span><br><span class="line">        localAddForcePos.x = <span class="number">0f</span>;</span><br><span class="line">        localAddForcePos.z = <span class="number">0f</span>;</span><br><span class="line">        _contactPosition = transform.TransformPoint(localAddForcePos);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> localAngleY = _steerAngle + _toeAngle;</span><br><span class="line">        <span class="keyword">var</span> forward = Quaternion.AngleAxis(localAngleY, transform.up) * transform.forward;</span><br><span class="line">        <span class="keyword">var</span> right = Quaternion.AngleAxis(localAngleY, transform.up) * transform.right;</span><br><span class="line">        _forwardDirection = Vector3.ProjectOnPlane(forward, _hitInfo.normal).normalized;</span><br><span class="line">        _sidewaysDirection = Vector3.ProjectOnPlane(right, _hitInfo.normal).normalized;</span><br><span class="line"></span><br><span class="line">        _currentCamberAngle = Vector3.SignedAngle(_hitInfo.normal, transform.up, forward) + _camberAngle;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> vel = _rigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (_hitInfo.collider.attachedRigidbody != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> contactVel = _hitInfo.collider.attachedRigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line">            vel -= contactVel;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        _forwardVelocity = Vector3.Dot(vel, _forwardDirection);</span><br><span class="line">        _sidewaysVelocity = Vector3.Dot(vel, _sidewaysDirection);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> noiseX = _hitInfo.point.x * _bumpPeriod;</span><br><span class="line">        <span class="keyword">var</span> noiseY = _hitInfo.point.z * _bumpPeriod;</span><br><span class="line">        <span class="keyword">var</span> bump = (Mathf.PerlinNoise(noiseX, noiseY) - <span class="number">0.5f</span>) * _bumpAmplitude;</span><br><span class="line"></span><br><span class="line">        _suspensionCompression = _suspensionLength - (_hitInfo.distance + bump - _radius);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        _contactPosition = Vector3.zero;</span><br><span class="line"></span><br><span class="line">        _forwardDirection = Vector3.zero;</span><br><span class="line">        _sidewaysDirection = Vector3.zero;</span><br><span class="line"></span><br><span class="line">        _forwardVelocity = <span class="number">0f</span>;</span><br><span class="line">        _sidewaysVelocity = <span class="number">0f</span>;</span><br><span class="line"></span><br><span class="line">        _suspensionCompression = <span class="number">0f</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法负责更新车轮的各种状态变量，包括悬挂压缩、接触位置、方向向量（前向和侧向）、速度分量以及悬挂压缩的当前值。</p>
+<p><strong>保存当前悬挂压缩值</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_suspensionPrevCompression = _suspensionCompression;</span><br></pre></td></tr></table></figure>
+<p>保存当前的悬挂压缩值 <code>_suspensionCompression</code> 到 <code>_suspensionPrevCompression</code>。这使得在后续计算中可以比较当前帧和上一帧的悬挂压缩变化，有助于模拟悬挂系统的动态行为。</p>
+<p><strong>更新车轮触地时的状态</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (_grounded)                                                                                      </span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 更新接触位置</span></span><br><span class="line">    <span class="keyword">var</span> localAddForcePos = transform.InverseTransformPoint(_hitInfo.point);                         </span><br><span class="line">    localAddForcePos.x = <span class="number">0f</span>;</span><br><span class="line">    localAddForcePos.z = <span class="number">0f</span>;</span><br><span class="line">    _contactPosition = transform.TransformPoint(localAddForcePos);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算前向和侧向方向向量</span></span><br><span class="line">    <span class="keyword">var</span> localAngleY = _steerAngle + _toeAngle;</span><br><span class="line">    <span class="keyword">var</span> forward = Quaternion.AngleAxis(localAngleY, transform.up) * transform.forward;</span><br><span class="line">    <span class="keyword">var</span> right = Quaternion.AngleAxis(localAngleY, transform.up) * transform.right;</span><br><span class="line">    _forwardDirection = Vector3.ProjectOnPlane(forward, _hitInfo.normal).normalized;</span><br><span class="line">    _sidewaysDirection = Vector3.ProjectOnPlane(right, _hitInfo.normal).normalized;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新当前倾角</span></span><br><span class="line">    _currentCamberAngle = Vector3.SignedAngle(_hitInfo.normal, transform.up, forward) + _camberAngle;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算速度分量</span></span><br><span class="line">    <span class="keyword">var</span> vel = _rigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_hitInfo.collider.attachedRigidbody != <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> contactVel = _hitInfo.collider.attachedRigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line">        vel -= contactVel;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _forwardVelocity = Vector3.Dot(vel, _forwardDirection);</span><br><span class="line">    _sidewaysVelocity = Vector3.Dot(vel, _sidewaysDirection);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加地形起伏效果</span></span><br><span class="line">    <span class="keyword">var</span> noiseX = _hitInfo.point.x * _bumpPeriod;</span><br><span class="line">    <span class="keyword">var</span> noiseY = _hitInfo.point.z * _bumpPeriod;</span><br><span class="line">    <span class="keyword">var</span> bump = (Mathf.PerlinNoise(noiseX, noiseY) - <span class="number">0.5f</span>) * _bumpAmplitude;</span><br><span class="line"></span><br><span class="line">    _suspensionCompression = _suspensionLength - (_hitInfo.distance + bump - _radius);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>更新接触位置</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> localAddForcePos = transform.InverseTransformPoint(_hitInfo.point);                         </span><br><span class="line">localAddForcePos.x = <span class="number">0f</span>;</span><br><span class="line">localAddForcePos.z = <span class="number">0f</span>;</span><br><span class="line">_contactPosition = transform.TransformPoint(localAddForcePos);</span><br></pre></td></tr></table></figure>
+<p>通过获取并修改碰撞点信息更新得到接触位置 <code>_ContactPosition</code>。</p>
+<ol>
+<li class="lvl-3">
+<p>使用 <code>transform.InverseTransformPoint(_hitInfo.point)</code> 将碰撞点从世界坐标转换为本地坐标。</p>
+</li>
+<li class="lvl-3">
+<p>设置 <code>localAddForcePos.x</code> 和 <code>localAddForcePos.z</code> 为 0f，确保只保留垂直方向上的偏移。</p>
+</li>
+<li class="lvl-3">
+<p>使用 <code>transform.TransformPoint(localAddForcePos)</code> 将修改后的本地坐标再转换回世界坐标，得到最终的接触位置。</p>
+</li>
+</ol>
+<p><strong>计算前向和侧向方向向量</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> localAngleY = _steerAngle + _toeAngle;</span><br><span class="line"><span class="keyword">var</span> forward = Quaternion.AngleAxis(localAngleY, transform.up) * transform.forward;</span><br><span class="line"><span class="keyword">var</span> right = Quaternion.AngleAxis(localAngleY, transform.up) * transform.right;</span><br><span class="line">_forwardDirection = Vector3.ProjectOnPlane(forward, _hitInfo.normal).normalized;</span><br><span class="line">_sidewaysDirection = Vector3.ProjectOnPlane(right, _hitInfo.normal).normalized;</span><br></pre></td></tr></table></figure>
+<p>计算并更新前向方向向量 <code>_forwardDirection</code> 和侧向方向向量 <code>_sidewaysDirection</code>。</p>
+<ol>
+<li class="lvl-3">
+<p>定义变量 <code>localAngleY</code> 并设为转向角度和外倾角的总和，在这里称为总转向角度。</p>
+</li>
+<li class="lvl-3">
+<p>通过 <code>Quaternion.AngleAxis(localAngleY, transform.up)</code> 创建一个绕 Y 轴 (transform.up) 旋转的四元数，表示进行总转向后的方向，将其与原始的前向 <code>transform.forward</code> 相乘，即四元数相乘运算，也就是将总转向角度加在正前方向上，表示从前向转向后的角度，将其定义为新的前向角度。</p>
+</li>
+<li class="lvl-3">
+<p>同样，将进行总转向后的方向与原始的右向 <code>transform.right</code> 相乘，将总转向角度加在正右侧方向上，表示从原始正右侧转向后的角度，将其定义为新的右侧方向的角度。</p>
+</li>
+<li class="lvl-3">
+<p>使用 <code>Vector3.ProjectOnPlane</code> 方法将前向和侧向向量分别投影到与碰撞法线垂直的平面上，并进行归一化，以确保它们正确地反映相对于地面的方向，同时避免因为向量长度不一致导致的计算误差，然后分别赋给<code>_forwardDirection</code>和<code>_sidewaysDirection</code>。</p>
+</li>
+</ol>
+<p><strong>更新当前倾角</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_currentCamberAngle = Vector3.SignedAngle(_hitInfo.normal, transform.up, forward) + _camberAngle;</span><br></pre></td></tr></table></figure>
+<p>更新当前的倾角 <code>_currentCamberAngle</code>。</p>
+<ol>
+<li class="lvl-3">
+<p><code>Vector3.SignedAngle(0A, OB, forward)</code> 方法可以理解为得到“两个向量之间的夹角（有符号的）”，或者理解为“将两个向量都放在坐标原点，一个向量要向哪个方向旋转多少度 才能与另一个向量重合。”，通过输入向量 OA 和 OB 以及旋转轴 forward 也就是 Z 轴正向，可以得到向量之间的差角，并且该差角永远是两个差角之间较小的那一个，其值永远在 -180° ~ 180° 之间。</p>
+</li>
+<li class="lvl-3">
+<p>这里通过 <code>Vector3.SignedAngle(_hitInfo.normal, transform.up, forward)</code> 得到触地点法向方向（也就是该处地面的法线方向）到 WheelCollider2 所处物体的正上方向（也就是载具视角的正上方向）之间绕 Z 轴正向之间的夹角，将计算出来的夹角加上初始设定的 CamberAngle 即得到实际的倾角。</p>
+</li>
+</ol>
+<p><strong>计算速度分量</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vel = _rigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (_hitInfo.collider.attachedRigidbody != <span class="literal">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> contactVel = _hitInfo.collider.attachedRigidbody.GetPointVelocity(_hitInfo.point);</span><br><span class="line">    vel -= contactVel;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_forwardVelocity = Vector3.Dot(vel, _forwardDirection);</span><br><span class="line">_sidewaysVelocity = Vector3.Dot(vel, _sidewaysDirection);</span><br></pre></td></tr></table></figure>
+<p>计算并更新前向速度 <code>_forwardVelocity</code> 和侧向速度 <code>_sidewaysVelocity</code>。</p>
+<ol>
+<li class="lvl-3">
+<p>通过 <code>GetPointVelocity</code> 方法获取到车轮刚体组件与地面碰撞点的速度并赋给变量 <code>vel</code>。</p>
+</li>
+<li class="lvl-3">
+<p>如果车轮碰撞到的物体也存在刚体组件，则通过碰撞到的物体的 <code>GetPointVelocity</code> 方法获取被碰撞物体在同一点的速度，两者相减得到车轮的相对速度。</p>
+</li>
+<li class="lvl-3">
+<p>将得到的相对速度与前向和侧向两个单位向量进行 <code>Vector3.Dot</code> 点乘方法来分解速度，并分别得到前向分速度和侧向分速度。</p>
+</li>
+</ol>
+<p><strong>添加地形起伏效果</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> noiseX = _hitInfo.point.x * _bumpPeriod;</span><br><span class="line"><span class="keyword">var</span> noiseY = _hitInfo.point.z * _bumpPeriod;</span><br><span class="line"><span class="keyword">var</span> bump = (Mathf.PerlinNoise(noiseX, noiseY) - <span class="number">0.5f</span>) * _bumpAmplitude;</span><br><span class="line"></span><br><span class="line">_suspensionCompression = _suspensionLength - (_hitInfo.distance + bump - _radius);</span><br></pre></td></tr></table></figure>
+<p>添加基于 Perlin 噪声的地形起伏效果，同时更新悬挂压缩值 <code>_suspensionCompression</code>。</p>
+<ol>
+<li class="lvl-3">
+<p>使用碰撞点的位置和周期参数生成 Perlin 噪声的 X、Y 两个参数，用来模拟地形起伏。</p>
+</li>
+<li class="lvl-3">
+<p>bump 表示地形起伏的高度，将生成的 X、Y 两参数传入 Perlin 噪声生成函数 <code>Mathf.PerlinNoise(noiseX, noiseY)</code> 得到一个连续变化的随机值，同时可以通过调整幅度 <code>_bumpAmplitude</code> 控制其影响程度。</p>
+</li>
+<li class="lvl-3">
+<p>最终的悬挂压缩值等于悬挂长度减去碰撞距离（从悬挂连接点到地面碰撞点的距离。这个距离越小，意味着悬挂系统被压缩得越多）加上地形起伏高度，再减去轮胎半径。</p>
+</li>
+</ol>
+<p><strong>更新车轮未触地时的状态</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    _contactPosition = Vector3.zero;</span><br><span class="line"></span><br><span class="line">    _forwardDirection = Vector3.zero;</span><br><span class="line">    _sidewaysDirection = Vector3.zero;</span><br><span class="line"></span><br><span class="line">    _forwardVelocity = <span class="number">0f</span>;</span><br><span class="line">    _sidewaysVelocity = <span class="number">0f</span>;</span><br><span class="line"></span><br><span class="line">    _suspensionCompression = <span class="number">0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当车轮未接地时，重置相关状态变量。</p>
+<ol>
+<li class="lvl-3">
+<p>将接触位置 _contactPosition 置为零向量。</p>
+</li>
+<li class="lvl-3">
+<p>将前向和侧向方向向量置为零向量。</p>
+</li>
+<li class="lvl-3">
+<p>将前向和侧向速度置为零，避免车辆在空中依然可以更改速度。</p>
+</li>
+<li class="lvl-3">
+<p>将悬挂压缩值置为零（此时悬挂完全展开）。</p>
+</li>
+</ol>
+<h3 id="悬挂系统力计算方法-AddSuspensionForce">悬挂系统力计算方法 <code>AddSuspensionForce</code></h3>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">AddSuspensionForce</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!_grounded)</span><br><span class="line">    &#123;</span><br><span class="line">        _load = <span class="number">0f</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> springForce = _suspensionSpring * _suspensionCompression;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> susVel = (_suspensionCompression - _suspensionPrevCompression) / Time.fixedDeltaTime;</span><br><span class="line">    <span class="keyword">var</span> damper = susVel &gt; <span class="number">0f</span> ? _suspensionBump : _suspensionRebound;</span><br><span class="line">    <span class="keyword">var</span> damperForce = damper * susVel;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> susForce = springForce + damperForce + _antiRollBarForce;</span><br><span class="line">    <span class="keyword">if</span> (susForce &lt; <span class="number">0f</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        susForce = <span class="number">0f</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> susForceVec = transform.up * susForce;</span><br><span class="line">    _rigidbody.AddForceAtPosition(susForceVec, _contactPosition);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (_debug)</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.DrawRay(_contactPosition, susForceVec * <span class="number">0.0001f</span>, Color.red);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _load = susForce;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>检查是否接地</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!_grounded)</span><br><span class="line">    &#123;</span><br><span class="line">        _load = <span class="number">0f</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>检查车轮是否接触地面：只有当车轮接触地面时，才会有悬挂力的作用。如果车轮未接地，则将负载 <code>_load</code> 设置为 <code>0f</code> 并返回，不执行后续代码。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0d5d0e0a243d4f59c84.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0d5d0e0a243d4f59c84.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Everett Rain</div><div class="post-copyright__author_desc">A blog website</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://everettrain.cn/2024/12/19/WheelCollider2/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://everettrain.cn/2024/12/19/WheelCollider2/')">自制载具系统：WheelCollider2</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://everettrain.cn/2024/12/19/WheelCollider2/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=自制载具系统：WheelCollider2&amp;url=https://everettrain.cn/2024/12/19/WheelCollider2/&amp;pic=https://pic1.imgdb.cn/item/678ca023d0e0a243d4f59c35.jpg" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://everettrain.cn" target="_blank">Everett Rain</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/Unity/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Unity<span class="tagsPageCount">3</span></a><a class="post-meta__box__tags" href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>代码解析<span class="tagsPageCount">3</span></a><a class="post-meta__box__tags" href="/tags/C/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>C#<span class="tagsPageCount">2</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/678ca3efd0e0a243d4f59d2f.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/12/16/prologue/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0cad0e0a243d4f59c81.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">序章</div></div></a></div><div class="next-post pull-right"><a href="/2024/12/20/CylinderCaster/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca119d0e0a243d4f59c89.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">自制载具系统：CylinderCaster</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2024/12/20/CylinderCaster/" title="自制载具系统：CylinderCaster"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca119d0e0a243d4f59c89.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-12-20</div><div class="title">自制载具系统：CylinderCaster</div></div></a></div><div><a href="/2025/01/18/Chapter5/" title="第5章：Unity Shader 编写基础"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca3efd0e0a243d4f59d2f.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-01-18</div><div class="title">第5章：Unity Shader 编写基础</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="anzhiyufont anzhiyu-icon-comments"></i><span> 评论</span></div><div class="comment-randomInfo"><a onclick="anzhiyu.addRandomCommentInfo()" href="javascript:void(0)">匿名评论</a><a href="/privacy" style="margin-left: 4px">隐私政策</a></div><div class="comment-tips" id="comment-tips"><span>✅ 你无需删除空行，直接评论以获取最佳展示效果</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div><div class="comment-barrage"></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0d5d0e0a243d4f59c84.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description">Everett Rain 的个人 Blog 网站</div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Everett Rain</h1><div class="author-info__desc">A blog website</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/everettrain" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="mailto:startrakcontact@gmail.com" target="_blank" title="Email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"><span>👋🏻 Hi，欢迎来看我的博客！</span><br> <span>❓ 如有问题欢迎评论区交流！</span><br> <span>😫 页面异常？尝试<kbd>Ctrl</kbd>+<kbd>F5</kbd></span><br> <span>📧 如需联系我：<a href="mailto:everettrain@icloud.com"><b>发送邮件🚀</b></a></span> <div id="welcome-info"></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">整体代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7%E6%9F%A5%E8%AF%A2"><span class="toc-number">2.</span> <span class="toc-text">变量与属性查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E8%A7%A3%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text">变量解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SweepType-%E9%83%A8%E5%88%86"><span class="toc-number">3.1.</span> <span class="toc-text">SweepType 部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E9%83%A8%E5%88%86"><span class="toc-number">3.2.</span> <span class="toc-text">常量部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%A6%E8%BD%AE%E5%87%A0%E4%BD%95%E9%83%A8%E5%88%86"><span class="toc-number">3.3.</span> <span class="toc-text">车轮几何部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%AC%E6%8C%82%E7%B3%BB%E7%BB%9F%E9%83%A8%E5%88%86"><span class="toc-number">3.4.</span> <span class="toc-text">悬挂系统部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%A6%E8%BD%AE%E5%80%BE%E8%A7%92%E9%83%A8%E5%88%86"><span class="toc-number">3.5.</span> <span class="toc-text">车轮倾角部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E5%85%AC%E5%BC%8F%E9%83%A8%E5%88%86"><span class="toc-number">3.6.</span> <span class="toc-text">魔术公式部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AE%E8%83%8E%E6%BB%9A%E5%8A%A8%E9%98%BB%E5%8A%9B%E5%92%8C%E8%B7%AF%E9%9D%A2%E5%BD%B1%E5%93%8D"><span class="toc-number">3.7.</span> <span class="toc-text">轮胎滚动阻力和路面影响</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E9%83%A8%E5%88%86"><span class="toc-number">3.8.</span> <span class="toc-text">交互部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%A6%E8%BE%86%E8%A1%8C%E4%B8%BA%E5%86%85%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">3.9.</span> <span class="toc-text">车辆行为内部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E8%AF%BB%E5%86%99%E6%9D%83%E9%99%90"><span class="toc-number">3.10.</span> <span class="toc-text">变量读写权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E9%83%A8%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">方法部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95-Awake"><span class="toc-number">4.1.</span> <span class="toc-text">初始化方法 Awake</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%AF%8F%E5%B8%A7%E6%9B%B4%E6%96%B0%E6%96%B9%E6%B3%95-FixedUpdate"><span class="toc-number">4.2.</span> <span class="toc-text">固定每帧更新方法 FixedUpdate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%98%E5%88%B6%E8%BE%85%E5%8A%A9%E5%9B%BE%E5%BD%A2%E6%96%B9%E6%B3%95-OnDrawGizmos"><span class="toc-number">4.3.</span> <span class="toc-text">绘制辅助图形方法 OnDrawGizmos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95-Sweep"><span class="toc-number">4.4.</span> <span class="toc-text">扫描检测方法 Sweep</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%BD%AE%E8%83%8E%E7%8A%B6%E6%80%81%E6%96%B9%E6%B3%95-UpdateState"><span class="toc-number">4.5.</span> <span class="toc-text">更新轮胎状态方法 UpdateState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%AC%E6%8C%82%E7%B3%BB%E7%BB%9F%E5%8A%9B%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95-AddSuspensionForce"><span class="toc-number">4.6.</span> <span class="toc-text">悬挂系统力计算方法 AddSuspensionForce</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/18/Chapter5/" title="第5章：Unity Shader 编写基础"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca3efd0e0a243d4f59d2f.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第5章：Unity Shader 编写基础"/></a><div class="content"><a class="title" href="/2025/01/18/Chapter5/" title="第5章：Unity Shader 编写基础">第5章：Unity Shader 编写基础</a><time datetime="2025-01-18T13:14:34.000Z" title="发表于 2025-01-18 21:14:34">2025-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/04/C01P02/" title="第一章 开端 02"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0cad0e0a243d4f59c81.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第一章 开端 02"/></a><div class="content"><a class="title" href="/2025/01/04/C01P02/" title="第一章 开端 02">第一章 开端 02</a><time datetime="2025-01-04T09:45:54.000Z" title="发表于 2025-01-04 17:45:54">2025-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/28/IntroductionReview/" title="英美概况复习"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca024d0e0a243d4f59c36.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="英美概况复习"/></a><div class="content"><a class="title" href="/2024/12/28/IntroductionReview/" title="英美概况复习">英美概况复习</a><time datetime="2024-12-28T11:58:11.000Z" title="发表于 2024-12-28 19:58:11">2024-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/26/C01P01/" title="第一章 开端 01"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca0cad0e0a243d4f59c81.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第一章 开端 01"/></a><div class="content"><a class="title" href="/2024/12/26/C01P01/" title="第一章 开端 01">第一章 开端 01</a><time datetime="2024-12-26T03:03:40.000Z" title="发表于 2024-12-26 11:03:40">2024-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/20/CylinderCaster/" title="自制载具系统：CylinderCaster"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://pic1.imgdb.cn/item/678ca119d0e0a243d4f59c89.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自制载具系统：CylinderCaster"/></a><div class="content"><a class="title" href="/2024/12/20/CylinderCaster/" title="自制载具系统：CylinderCaster">自制载具系统：CylinderCaster</a><time datetime="2024-12-20T04:04:22.000Z" title="发表于 2024-12-20 12:04:22">2024-12-20</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2024 - 2025 By <a class="footer-bar-link" href="/" title="Everett Rain" target="_blank">Everett Rain</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">6</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://everettrain.cn/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/images/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 归档</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 音乐馆</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977860953&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 流行音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977764824&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 二次元音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12977154241&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 纯音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12997246554&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> hyper 的音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/music/?id=12921745965&amp;server=netease"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> yjh 的音乐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 0.88rem;">C#<sup>2</sup></a><a href="/tags/Code/" style="font-size: 0.88rem;">Code<sup>1</sup></a><a href="/tags/Hexo/" style="font-size: 0.88rem;">Hexo<sup>2</sup></a><a href="/tags/Manual/" style="font-size: 0.88rem;">Manual<sup>2</sup></a><a href="/tags/Markdown/" style="font-size: 0.88rem;">Markdown<sup>1</sup></a><a href="/tags/Shader/" style="font-size: 0.88rem;">Shader<sup>1</sup></a><a href="/tags/Unity/" style="font-size: 0.88rem;">Unity<sup>3</sup></a><a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/" style="font-size: 0.88rem;">代码解析<sup>3</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">学习<sup>1</sup></a><a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 0.88rem;">教程<sup>2</sup></a><a href="/tags/%E6%96%87%E5%AD%A6%E4%BD%9C%E5%93%81/" style="font-size: 0.88rem;">文学作品<sup>3</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="anzhiyufont anzhiyu-icon-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="12982010724" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2024 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Everett Rain 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.everettrain.cn/',
+      region: '',
+      onCommentLoaded: () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(runFn,0)
+    else getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.everettrain.cn/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const runFn = () => {
+    init();
+    
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) anzhiyu.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getComment = () => {
+    const runTwikoo = () => {
+      twikoo.getRecentComments({
+        envId: 'https://twikoo.everettrain.cn/',
+        region: '',
+        pageSize: 6,
+        includeReply: true
+      }).then(function (res) {
+        const twikooArray = res.map(e => {
+          return {
+            'content': changeContent(e.comment),
+            'avatar': e.avatar,
+            'nick': e.nick,
+            'url': e.url + '#' + e.id,
+            'date': new Date(e.created).toISOString()
+          }
+        })
+
+        saveToLocal.set('twikoo-newest-comments', JSON.stringify(twikooArray), 10/(60*24))
+        generateHtml(twikooArray)
+      }).catch(function (err) {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      })
+    }
+
+    if (typeof twikoo === 'object') {
+      runTwikoo()
+    } else {
+      getScript('https://cdn.cbd.int/twikoo@1.6.39/dist/twikoo.all.min.js').then(runTwikoo)
+    }
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'data-lazy-src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'><div class='name'><span>${array[i].nick} </span></div></a>`
+        }
+        
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <time datetime="${array[i].date}">${anzhiyu.diffDate(array[i].date, true)}</time></div>
+        </div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom && ($dom.innerHTML= result)
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('twikoo-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script src="/js/card-welcome.js"></script><script src="/js/newyears.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","meta[property=\"og:type\"]","meta[property=\"og:site_name\"]","meta[property=\"og:description\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为 Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://docs.anheyu.com/" style="margin-inline:5px" data-title="主题版本 AnZhiYu_v1.6.14" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Theme-AnZhiYu-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于 Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于 4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><!-- hexo injector body_end end --></body></html>
