@@ -3,8 +3,9 @@
 // credentials live in the Vercel env vars UMAMI_USERNAME / UMAMI_PASSWORD and the browser only gets counts.
 const UMAMI = 'https://umami.everettrain.cn';
 const WEBSITE_ID = 'cbb6ae5f-f4e0-4258-9da2-43a15f541509';
-// Umami treats startAt=0&endAt=1 as "all time"
-const ALL_TIME = 'startAt=0&endAt=1';
+// Any date before Umami started collecting for this site. Umami 2.17's own "all time" range
+// (startAt=0&endAt=1) fails with a 500 through the API, so the range is spelled out.
+const STATS_SINCE = Date.UTC(2024, 11, 1);
 const MAX_PATH_LENGTH = 512;
 
 // Shared by concurrent requests of a warm instance so they log in once
@@ -30,7 +31,8 @@ async function websiteStats(filter, isRetry = false) {
 		throw error;
 	});
 	const token = await tokenPromise;
-	const response = await fetch(`${UMAMI}/api/websites/${WEBSITE_ID}/stats?${ALL_TIME}${filter}`, {
+	const range = `startAt=${STATS_SINCE}&endAt=${Date.now()}`;
+	const response = await fetch(`${UMAMI}/api/websites/${WEBSITE_ID}/stats?${range}${filter}`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 	// Tokens expire; log in again once
