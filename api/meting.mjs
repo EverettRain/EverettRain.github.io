@@ -36,9 +36,12 @@ async function songDetails(ids) {
 	return ids.map(id => byId.get(id)).filter(Boolean);
 }
 
+// name/artist/url/cover/lrc are what MetingJS and APlayer read; album and duration (seconds) are for the music library page
 const toTrack = song => ({
 	name: song.name,
 	artist: song.artists.map(artist => artist.name).join(' / '),
+	album: song.album.name,
+	duration: Math.round(song.duration / 1000),
 	url: `${NETEASE}/song/media/outer/url?id=${song.id}.mp3`,
 	cover: `${song.album.picUrl.replace(/^http:/, 'https:')}?param=300y300`,
 	lrc: `/api/meting?server=netease&type=lrc&id=${song.id}`,
@@ -56,9 +59,13 @@ async function song(id) {
 	return (await songDetails([Number(id)])).filter(isPlayable).map(toTrack);
 }
 
+// Translated lines keep their original timestamps, so the player shows each one under its original line
 async function lyric(id) {
 	const data = await netease(`/api/song/lyric?id=${id}&lv=1&tv=-1`);
-	return data.lrc?.lyric || '[00:00.00]纯音乐，请欣赏';
+	const original = data.lrc?.lyric;
+	if (!original) return '[00:00.00]纯音乐，请欣赏';
+	const translation = data.tlyric?.lyric;
+	return translation ? `${original}\n${translation}` : original;
 }
 
 const json = (body, cacheControl, status = 200) =>
