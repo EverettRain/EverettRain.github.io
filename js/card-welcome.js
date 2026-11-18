@@ -1,6 +1,6 @@
 // 侧边栏添加个性定位欢迎信息 2.0
 window.IP_CONFIG = {
-	API_KEY: 'G6hJNvmEaHnq7jNbsWYrD4kP8c', // API密钥 申请地址：https://api.76.al/
+	API_URL: '/api/ip', // Vercel 函数，源码在 source/api/ip.mjs；本地 hexo s 下没有此接口
 	BLOG_LOCATION: {
 		lng: 118.80, // 经度
 		lat: 31.94 // 纬度
@@ -26,9 +26,41 @@ const insertAnnouncementComponent = () => {
 const getWelcomeInfoElement = () => document.querySelector('#welcome-info');
 
 const fetchIpData = async () => {
-	const response = await fetch(`https://api.nsmao.net/api/ip/query?key=${encodeURIComponent(IP_CONFIG.API_KEY)}`);
+	const response = await fetch(IP_CONFIG.API_URL);
 	if (!response.ok) throw new Error('网络响应不正常');
-	return await response.json();
+	return toWelcomeData(await response.json());
+};
+
+// 接口返回 ISO 3166-2 省级代码，这里换成与 greetings 表一致的中文全称
+const CN_PROVINCES = {
+	BJ: '北京市', TJ: '天津市', HE: '河北省', SX: '山西省', NM: '内蒙古自治区',
+	LN: '辽宁省', JL: '吉林省', HL: '黑龙江省', SH: '上海市', JS: '江苏省',
+	ZJ: '浙江省', AH: '安徽省', FJ: '福建省', JX: '江西省', SD: '山东省',
+	HA: '河南省', HB: '湖北省', HN: '湖南省', GD: '广东省', GX: '广西壮族自治区',
+	HI: '海南省', CQ: '重庆市', SC: '四川省', GZ: '贵州省', YN: '云南省',
+	XZ: '西藏自治区', SN: '陕西省', GS: '甘肃省', QH: '青海省', NX: '宁夏回族自治区',
+	XJ: '新疆维吾尔自治区'
+};
+// IP 库把港澳台当作独立国家代码，greetings 表则把它们归在"中国"下
+const CN_SPECIAL_REGIONS = { TW: '台湾省', HK: '香港特别行政区', MO: '澳门特别行政区' };
+// 接口的城市名是英文拼音，只翻译有专属欢迎语的城市；按省分组是为了区分苏州/宿州这类同拼音城市
+const CN_CITIES = {
+	JS: { Nanjing: '南京市', Suzhou: '苏州市' },
+	ZJ: { Hangzhou: '杭州市' },
+	HA: { Zhengzhou: '郑州市', Xinyang: '信阳市', Nanyang: '南阳市', Zhumadian: '驻马店市', Kaifeng: '开封市', Luoyang: '洛阳市' },
+	HB: { Huanggang: '黄冈市' },
+	GD: { Guangzhou: '广州市', Shenzhen: '深圳市', Yangjiang: '阳江市' }
+};
+const countryNames = new Intl.DisplayNames(['zh-CN'], { type: 'region' });
+
+const toWelcomeData = ({ ip, country, region, city, lat, lng }) => {
+	if (!country) return { ip, data: null };
+	const location = CN_SPECIAL_REGIONS[country]
+		? { country: '中国', prov: CN_SPECIAL_REGIONS[country], city: '' }
+		: country === 'CN'
+			? { country: '中国', prov: CN_PROVINCES[region] || '', city: (CN_CITIES[region] || {})[city] || '' }
+			: { country: countryNames.of(country), prov: '', city: '' };
+	return { ip, data: { lng, lat, ...location } };
 };
 
 const showWelcome = ({
@@ -69,7 +101,7 @@ const calculateDistance = (lng, lat) => {
 };
 const formatIpDisplay = (ip) => ip.includes(":") ? "<br>好复杂，咱看不懂~(ipv6)" : ip;
 const formatLocation = (country, prov, city) => {
-	return country ? (country === "中国" ? `${prov} ${city}` : country) : '神秘地区';
+	return country ? (country === "中国" ? `${prov} ${city}`.trim() || country : country) : '神秘地区';
 };
 
 const generateWelcomeMessage = (pos, dist, ipDisplay, country, prov, city) => `
